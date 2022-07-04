@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net48</TargetFrameworks>
+    <RootNamespace>alterNERDtive.YAVAPF</RootNamespace>
+    <PackageId>alterNERDtive.YAVAPF</PackageId>
+    <Version>0.0.1</Version>
+    <Company>alterNERDtive</Company>
+    <Authors>alterNERDtive</Authors>
+    <Description>YAVAPF is yet another VoiceAttack plugin framework.</Description>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://alterNERDtive.github.io/YAVAPF</PackageProjectUrl>
+    <Copyright>© 2022 alterNERDtive</Copyright>
+    <PackageIcon>glider.jpg</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/alterNERDtive/YAVAPF</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>VoiceAttack</PackageTags>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Yet Another VoiceAttack Plugin Framework</Title>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\glider.jpg">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ImpromptuInterface" Version="7.0.1" />
+  </ItemGroup>
+
+</Project>

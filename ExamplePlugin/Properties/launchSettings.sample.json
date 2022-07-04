@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "ExamplePlugin": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\VoiceAttack\\VoiceAttack.exe",
+      "commandLineArgs": "-datadir %TEMP%",
+      "workingDirectory": "C:\\Program Files\\VoiceAttack\\",
+      "nativeDebugging": false
+    }
+  }
+}

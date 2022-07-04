@@ -1,0 +1,44 @@
+﻿name: Create release on tag push
+
+on:
+  push:
+    tags:
+      - 'release/*'
+
+jobs:
+  build:
+    name: Build YAVAPF
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c release
+
+      - name: Run tests
+        run: dotnet test
+
+      - name: Create NuGet package
+        run: dotnet pack -c release
+
+      - name: Push NuGet package
+        run: dotnet nuget push "FIXXME/bin/Release/alterNERDtive.YAVAPF.*.nupkg" -source 'https://api.nuget.org/v3/index.json' -apikey ${{secrets.NUGET_AUTH_TOKEN}}
+
+      - name: Draft release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "FIXXME/bin/Release/alterNERDtive.YAVAPF.*.nupkg"
+          bodyFile: "CHANGELOG.md"
+          draft: true
