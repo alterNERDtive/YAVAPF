@@ -19,6 +19,8 @@
 
 using System;
 
+using VoiceAttack;
+
 namespace alterNERDtive.Yavapf.Example
 {
     public class ExamplePlugin
@@ -27,13 +29,17 @@ namespace alterNERDtive.Yavapf.Example
 
         static ExamplePlugin()
         {
-            Plugin = new ()
-            {
-                Name = "Example Plugin",
-                Version = "0.0.1",
-                Info = "This is a description",
-                Guid = "{76FE674F-F729-45FD-A1DD-E53E9E66B360}",
-            };
+            Plugin = new (
+                name: "Example Plugin",
+                version: "0.0.1",
+                info: "This is a description",
+                guid: "{76FE674F-F729-45FD-A1DD-E53E9E66B360}");
+
+            Plugin.Init += Init;
+            Plugin.Exit += Exit;
+            Plugin.Stop += Stop;
+
+            Plugin.Contexts += Test;
         }
 
         public static string VA_DisplayName() => Plugin.VA_DisplayName();
@@ -49,5 +55,24 @@ namespace alterNERDtive.Yavapf.Example
         public static void VA_Exit1(dynamic vaProxy) => Plugin.VA_Exit1(vaProxy);
 
         public static void VA_StopCommand() => Plugin.VA_StopCommand();
+
+        private static void Init(VoiceAttackInitProxyClass vaProxy)
+        {
+        }
+
+        private static void Exit(VoiceAttackProxyClass vaProxy)
+        {
+        }
+
+        private static void Stop()
+        {
+        }
+
+        [Context("test")]
+        [Context("other name")]
+        private static void Test(VoiceAttackInvokeProxyClass vaProxy)
+        {
+            Plugin.Log.Notice($"Plugin context '{vaProxy.Context}' invoked.");
+        }
     }
 }

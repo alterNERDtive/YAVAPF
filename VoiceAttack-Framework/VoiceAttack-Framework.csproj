@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net48</TargetFrameworks>
-    <RootNamespace>alterNERDtive.YAVAPF</RootNamespace>
+    <RootNamespace>alterNERDtive.Yavapf</RootNamespace>
     <PackageId>alterNERDtive.YAVAPF</PackageId>
     <Version>0.0.1</Version>
     <Company>alterNERDtive</Company>
@@ -38,7 +38,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ImpromptuInterface" Version="7.0.1" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="VoiceAttack">
+      <HintPath>C:\Program Files\VoiceAttack\VoiceAttack.exe</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
 
 </Project>
