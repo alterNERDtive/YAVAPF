@@ -12,16 +12,8 @@ issues with the plugins I have been working on over the last couple years:
 The goal is to get you up & running with as little code and as little knowledge of
 the inner workings of VoiceAttack as possible.
 
-## Documentation & Installation Guide
-
-You can find [comprehensive documentation on Github
-Pages](https://alterNERDtive.github.io/YAVAPF).
-
-Or at least you will once this is in a presentable state and I have actually
-written the documentation :)
-
-There is also an [example plugin on
-Github](https://github.com/alterNERDtive/YAVAPF/tree/release/ExamplePlugin).
+You can find an [example plugin on
+Github](https://github.com/alterNERDtive/YAVAPF/tree/develop/ExamplePlugin).
 
 ## Need Help / Want to Contribute?
 

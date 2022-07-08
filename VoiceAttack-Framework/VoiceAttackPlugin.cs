@@ -388,13 +388,11 @@ namespace alterNERDtive.Yavapf
         /// <param name="internalID">The internal GUID of the variable.</param>
         private void BooleanVariableChanged(string name, bool? from, bool? to, Guid? internalID = null)
         {
-            List<Action<string, bool?, bool?, Guid?>> actions = this.BoolChangedHandlers.Where(
+            foreach (Action<string, bool?, bool?, Guid?> action in this.BoolChangedHandlers.Where(
                 action => action.Method.GetCustomAttributes<BoolAttribute>().Where(
                     attr => attr.Name == name ||
-                        (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
-                        .Any()).ToList();
-
-            foreach (Action<string, bool?, bool?, Guid?> action in actions)
+                    (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
+                .Any()).ToList())
             {
                 try
                 {
@@ -416,13 +414,11 @@ namespace alterNERDtive.Yavapf
         /// <param name="internalID">The internal GUID of the variable.</param>
         private void DateVariableChanged(string name, DateTime? from, DateTime? to, Guid? internalID = null)
         {
-            List<Action<string, DateTime?, DateTime?, Guid?>> actions = this.DateTimeChangedHandlers.Where(
+            foreach (Action<string, DateTime?, DateTime?, Guid?> action in this.DateTimeChangedHandlers.Where(
                 action => action.Method.GetCustomAttributes<DateTimeAttribute>().Where(
                     attr => attr.Name == name ||
-                        (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
-                        .Any()).ToList();
-
-            foreach (Action<string, DateTime?, DateTime?, Guid?> action in actions)
+                    (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
+                .Any()).ToList())
             {
                 try
                 {
@@ -444,13 +440,11 @@ namespace alterNERDtive.Yavapf
         /// <param name="internalID">The internal GUID of the variable.</param>
         private void DecimalVariableChanged(string name, decimal? from, decimal? to, Guid? internalID = null)
         {
-            List<Action<string, decimal?, decimal?, Guid?>> actions = this.DecimalChangedHandlers.Where(
+            foreach (Action<string, decimal?, decimal?, Guid?> action in this.DecimalChangedHandlers.Where(
                 action => action.Method.GetCustomAttributes<DecimalAttribute>().Where(
                     attr => attr.Name == name ||
-                        (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
-                        .Any()).ToList();
-
-            foreach (Action<string, decimal?, decimal?, Guid?> action in actions)
+                    (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
+                .Any()).ToList())
             {
                 try
                 {
@@ -472,13 +466,11 @@ namespace alterNERDtive.Yavapf
         /// <param name="internalID">The internal GUID of the variable.</param>
         private void IntegerVariableChanged(string name, int? from, int? to, Guid? internalID = null)
         {
-            List<Action<string, int?, int?, Guid?>> actions = this.IntChangedHandlers.Where(
+            foreach (Action<string, int?, int?, Guid?> action in this.IntChangedHandlers.Where(
                 action => action.Method.GetCustomAttributes<IntAttribute>().Where(
                     attr => attr.Name == name ||
-                        (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
-                        .Any()).ToList();
-
-            foreach (Action<string, int?, int?, Guid?> action in actions)
+                    (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
+                .Any()).ToList())
             {
                 try
                 {
@@ -500,13 +492,11 @@ namespace alterNERDtive.Yavapf
         /// <param name="internalID">The internal GUID of the variable.</param>
         private void TextVariableChanged(string name, string? from, string? to, Guid? internalID = null)
         {
-            List<Action<string, string?, string?, Guid?>> actions = this.StringChangedHandlers.Where(
+            foreach (Action<string, string?, string?, Guid?> action in this.StringChangedHandlers.Where(
                 action => action.Method.GetCustomAttributes<StringAttribute>().Where(
                     attr => attr.Name == name ||
-                        (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
-                        .Any()).ToList();
-
-            foreach (Action<string, string?, string?, Guid?> action in actions)
+                    (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
+                .Any()).ToList())
             {
                 try
                 {
@@ -550,7 +540,7 @@ namespace alterNERDtive.Yavapf
 
         /// <summary>
         /// Denotes a handler for <see
-        /// cref="VaExit1(VoiceAttackInitProxyClass)"/>.
+        /// cref="VaExit1(VoiceAttackProxyClass)"/>.
         /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         protected class ExitAttribute : Attribute

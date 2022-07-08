@@ -14,25 +14,38 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.targets = Directory.Build.targets
 		glider.jpg = glider.jpg
 		LICENSE = LICENSE
+		mkdocs.yml = mkdocs.yml
 		README.md = README.md
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1BE45F7D-E6DE-49D2-A906-5CC9CD49B639}"
 	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yaml = .github\dependabot.yaml
 		.github\FUNDING.yml = .github\FUNDING.yml
-		.github\workflows\push-test.yaml = .github\workflows\push-test.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{9109DB0F-4765-4C7E-9E65-53C729D6251D}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\create-release.yaml = .github\workflows\create-release.yaml
-		.github\dependabot.yaml = .github\dependabot.yaml
+		.github\workflows\gh-pages.yaml = .github\workflows\gh-pages.yaml
+		.github\workflows\push-test.yaml = .github\workflows\push-test.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamplePlugin", "ExamplePlugin\ExamplePlugin.csproj", "{E390356B-4039-4364-B49C-38A37046A7BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamplePlugin", "ExamplePlugin\ExamplePlugin.csproj", "{E390356B-4039-4364-B49C-38A37046A7BD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{788DDBA5-E959-4153-8580-4462600F2960} = {788DDBA5-E959-4153-8580-4462600F2960}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{3FE46F37-0E89-4E29-BBCA-8E28A396F478}"
+	ProjectSection(SolutionItems) = preProject
+		docs\commands.md = docs\commands.md
+		docs\contexts.md = docs\contexts.md
+		docs\events.md = docs\events.md
+		docs\gettingstarted.md = docs\gettingstarted.md
+		docs\index.md = docs\index.md
+		docs\troubleshooting.md = docs\troubleshooting.md
+		docs\variables.md = docs\variables.md
 	EndProjectSection
 EndProject
 Global
@@ -56,6 +69,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1BE45F7D-E6DE-49D2-A906-5CC9CD49B639} = {9E9DD44C-8D0E-4E41-BD7B-3588B94D007D}
 		{9109DB0F-4765-4C7E-9E65-53C729D6251D} = {1BE45F7D-E6DE-49D2-A906-5CC9CD49B639}
+		{3FE46F37-0E89-4E29-BBCA-8E28A396F478} = {9E9DD44C-8D0E-4E41-BD7B-3588B94D007D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BD38511-A1FB-4B6C-8463-AE6D8E546AE0}
