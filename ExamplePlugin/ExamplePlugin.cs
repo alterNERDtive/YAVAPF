@@ -64,8 +64,17 @@ namespace alterNERDtive.Yavapf.Example
             // they are to be executed for.
             // See the definition of the “Test” method below.
             Plugin.Contexts += Test;
-            Plugin.Contexts += EmptyContext;
             Plugin.Contexts += RegexContext;
+
+            // You can even add lambdas! This one logs an explicit error for
+            // invoking the plugin without a context.
+            Plugin.Contexts +=
+                [Context("")]
+                (vaProxy)
+                =>
+                {
+                    Plugin.Log.Error($"Invoking this plugin without a context is not allowed.");
+                };
         }
 
         /// <summary>
@@ -182,7 +191,9 @@ namespace alterNERDtive.Yavapf.Example
         {
             Plugin.Log.Notice(
                 $"This is the example handler for the plugin contexts “test” and “different test”. It has been invoked with '{vaProxy.Context}'.");
-            _ = Plugin.Get<string?>("~test") ?? throw new ArgumentNullException("~test");
+
+            string test = Plugin.Get<string?>("~test") ?? throw new ArgumentNullException("~test");
+            Plugin.Log.Notice($"The value of 'TXT:~test' is '{test}'");
         }
 
         /// <summary>
@@ -190,7 +201,7 @@ namespace alterNERDtive.Yavapf.Example
         /// specified with “Context” attributes. Contexts must be all lower case.
         ///
         /// This example demonstrates using regular expressions. It handles all
-        /// contexts that begin with “foo” or contain.
+        /// contexts that begin with “foo” or contain “bar”.
         /// </summary>
         /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
         [Context("^foo.*")]
@@ -199,20 +210,6 @@ namespace alterNERDtive.Yavapf.Example
         {
             Plugin.Log.Notice(
                 $"This is the example handler for the plugin contexts “^foo.*” and “^.*bar.*”. It has been invoked with '{vaProxy.Context}'.");
-        }
-
-        /// <summary>
-        /// An example handler for plugin contexts. The context(s) must be
-        /// specified with “Context” attributes. Contexts must be all lower case.
-        ///
-        /// This example displays a custom error message when the plugin is
-        /// invoked with no context (= empty context).
-        /// </summary>
-        /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
-        [Context("")]
-        private static void EmptyContext(VoiceAttackInvokeProxyClass vaProxy)
-        {
-            Plugin.Log.Error($"Invoking this plugin without a context is not allowed.");
         }
     }
 }
