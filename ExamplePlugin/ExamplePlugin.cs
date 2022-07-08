@@ -204,5 +204,33 @@ namespace alterNERDtive.Yavapf.Example
             Plugin.Log.Notice(
                 $"This is the example handler for the plugin contexts “^foo.*” and “^.*bar.*”. It has been invoked with '{vaProxy.Context}'.");
         }
+
+        /// <summary>
+        /// An example handler for changed <see cref="bool"/> variables. It only
+        /// applies to the “isDay#” variable.
+        /// </summary>
+        /// <param name="name">The name of the variable.</param>
+        /// <param name="from">The old value of the variable.</param>
+        /// <param name="to">The new value of the variable.</param>
+        /// <param name="internalID">The GUID of the variable.</param>
+        [Bool("isDay#")]
+        public static void DayChanged(string name, bool? from, bool? to, Guid? internalID)
+        {
+            Plugin.Log.Notice($"This is the example handler for changed bool variables. It is now {(to ?? false ? "day" : "night")}.");
+        }
+
+        /// <summary>
+        /// An example handler for changed <see cref="string"/> variables. It
+        /// doesn’t specify a name, so it applies to all of them.
+        /// </summary>
+        /// <param name="name">The name of the variable.</param>
+        /// <param name="from">The old value of the variable.</param>
+        /// <param name="to">The new value of the variable.</param>
+        /// <param name="internalID">The GUID of the variable.</param>
+        [String]
+        public static void StringChanged(string name, string? from, string? to, Guid? internalID)
+        {
+            Plugin.Log.Notice($"This is the example handler for changed string variables. '{name}' changed from '{from ?? "Not Set"}' to '{to}'.");
+        }
     }
 }
