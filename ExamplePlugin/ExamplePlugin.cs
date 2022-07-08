@@ -23,56 +23,196 @@ using VoiceAttack;
 
 namespace alterNERDtive.Yavapf.Example
 {
+    /// <summary>
+    /// This is an example for a VoiceAttack plugin using YAVAPF.
+    ///
+    /// You can use this class and this project as base for your own implementation.
+    /// </summary>
     public class ExamplePlugin
     {
         private static readonly VoiceAttackPlugin Plugin;
 
+        /// <summary>
+        /// Initializes static members of the <see cref="ExamplePlugin"/> class.
+        ///
+        /// Since VoiceAttack’s plugin API requires a bunch of static methods
+        /// instead of instantiating a plugin class, the “Constructor” here also
+        /// needs to be static. It is executed right before a static method is
+        /// used for the first time, which would usually be when VoiceAttack
+        /// calls the <see cref="VA_Init1(dynamic)"/> method.
+        /// </summary>
         static ExamplePlugin()
         {
+            // You can generate a GUID in Visual Studio under “Tools” → “Create
+            // GUID”. Choose “Registry Format”.
             Plugin = new (
                 name: "Example Plugin",
                 version: "0.0.1",
                 info: "This is a description",
                 guid: "{76FE674F-F729-45FD-A1DD-E53E9E66B360}");
 
+            // Add handlers for the Init, Exit and Stop events here. The plugin
+            // will execute them whenever VA_Init1, VA_Exit1 or VA_StopCommand
+            // are run by VoiceAttack.
+            // You can add none or as many as you need.
             Plugin.Init += Init;
             Plugin.Exit += Exit;
             Plugin.Stop += Stop;
 
+            // Add handlers for plugin contexts. The methods added here must
+            // have at least one “Context” attribute specifying the contexts
+            // they are to be executed for.
+            // See the definition of the “Test” method below.
             Plugin.Contexts += Test;
+            Plugin.Contexts += EmptyContext;
+            Plugin.Contexts += RegexContext;
         }
 
+        /// <summary>
+        /// The plugin’s display name, as required by the VoiceAttack plugin
+        /// API.
+        ///
+        /// Since it is required to be static, it must be defined in your plugin
+        /// class for VoiceAttack to pick it up as a plugin.
+        /// </summary>
+        /// <returns>The display name.</returns>
         public static string VA_DisplayName() => Plugin.VA_DisplayName();
 
+        /// <summary>
+        /// The plugin’s description, as required by the VoiceAttack plugin API.
+        ///
+        /// Since it is required to be static, it must be defined in your plugin
+        /// class for VoiceAttack to pick it up as a plugin.
+        /// </summary>
+        /// <returns>The description.</returns>
         public static string VA_DisplayInfo() => Plugin.VA_DisplayInfo();
 
+        /// <summary>
+        /// The plugin’s GUID, as required by the VoiceAttack plugin API.
+        ///
+        /// Since it is required to be static, it must be defined in your plugin
+        /// class for VoiceAttack to pick it up as a plugin.
+        /// </summary>
+        /// <returns>The GUID.</returns>
         public static Guid VA_Id() => Plugin.VA_Id();
 
+        /// <summary>
+        /// The Init method, as required by the VoiceAttack plugin API.
+        /// Runs when the plugin is initially loaded.
+        ///
+        /// Since it is required to be static, it must be defined in your plugin
+        /// class for VoiceAttack to pick it up as a plugin.
+        /// </summary>
+        /// <param name="vaProxy">The VoiceAttack proxy object.</param>
         public static void VA_Init1(dynamic vaProxy) => Plugin.VA_Init1(vaProxy);
 
+        /// <summary>
+        /// The Invoke method, as required by the VoiceAttack plugin API.
+        /// Runs whenever a plugin context is invoked.
+        ///
+        /// Since it is required to be static, it must be defined in your plugin
+        /// class for VoiceAttack to pick it up as a plugin.
+        /// </summary>
+        /// <param name="vaProxy">The VoiceAttack proxy object.</param>
         public static void VA_Invoke1(dynamic vaProxy) => Plugin.VA_Invoke1(vaProxy);
 
+        /// <summary>
+        /// The Exit method, as required by the VoiceAttack plugin API.
+        /// Runs when VoiceAttack is shut down.
+        ///
+        /// Since it is required to be static, it must be defined in your plugin
+        /// class for VoiceAttack to pick it up as a plugin.
+        /// </summary>
+        /// <param name="vaProxy">The VoiceAttack proxy object.</param>
         public static void VA_Exit1(dynamic vaProxy) => Plugin.VA_Exit1(vaProxy);
 
+        /// <summary>
+        /// The StopCommand method, as required by the VoiceAttack plugin API.
+        /// Runs whenever all commands are stopped using the “Stop All Commands”
+        /// button or action.
+        ///
+        /// Since it is required to be static, it must be defined in your plugin
+        /// class for VoiceAttack to pick it up as a plugin.
+        /// </summary>
         public static void VA_StopCommand() => Plugin.VA_StopCommand();
 
+        /// <summary>
+        /// An example handler for VA_Init1. Init handlers are the place to do
+        /// anything that your plugin needs to set up when it is initially
+        /// loaded at VoiceAttack start.
+        /// </summary>
+        /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
         private static void Init(VoiceAttackInitProxyClass vaProxy)
         {
+            Plugin.Log.Notice("This is the example Init handler method.");
         }
 
+        /// <summary>
+        /// An example handler for VA_Exit1. Exit handlers have to make sure
+        /// your plugin is properly shut down with VoiceAttack. Do note that
+        /// there is a default timeout of 5s.
+        /// </summary>
+        /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
         private static void Exit(VoiceAttackProxyClass vaProxy)
         {
+            Plugin.Log.Notice("This is the example Exit handler method.");
         }
 
+        /// <summary>
+        /// An example handler for VA_StopCommand. If your plugin needs to
+        /// execute anything when all commands are stopped this is the place.
+        /// </summary>
         private static void Stop()
         {
+            Plugin.Log.Notice("This is the example Stop handler method.");
         }
 
+        /// <summary>
+        /// An example handler for plugin contexts. The context(s) must be
+        /// specified with “Context” attributes. Contexts must be all lower case.
+        ///
+        /// This example handles the “test” and “different test” plugin
+        /// contexts. They expect that a text parameter “~test” is set in
+        /// VoiceAttack.
+        /// </summary>
+        /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
         [Context("test")]
-        [Context("other name")]
+        [Context("different test")]
         private static void Test(VoiceAttackInvokeProxyClass vaProxy)
         {
-            Plugin.Log.Notice($"Plugin context '{vaProxy.Context}' invoked.");
+            Plugin.Log.Notice(
+                $"This is the example handler for the plugin contexts “test” and “different test”. It has been invoked with '{vaProxy.Context}'.");
+            _ = Plugin.Get<string?>("~test") ?? throw new ArgumentNullException("~test");
+        }
+
+        /// <summary>
+        /// An example handler for plugin contexts. The context(s) must be
+        /// specified with “Context” attributes. Contexts must be all lower case.
+        ///
+        /// This example demonstrates using regular expressions. It handles all
+        /// contexts that begin with “foo” or contain.
+        /// </summary>
+        /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
+        [Context("^foo.*")]
+        [Context("^.*bar.*")]
+        private static void RegexContext(VoiceAttackInvokeProxyClass vaProxy)
+        {
+            Plugin.Log.Notice(
+                $"This is the example handler for the plugin contexts “^foo.*” and “^.*bar.*”. It has been invoked with '{vaProxy.Context}'.");
+        }
+
+        /// <summary>
+        /// An example handler for plugin contexts. The context(s) must be
+        /// specified with “Context” attributes. Contexts must be all lower case.
+        ///
+        /// This example displays a custom error message when the plugin is
+        /// invoked with no context (= empty context).
+        /// </summary>
+        /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
+        [Context("")]
+        private static void EmptyContext(VoiceAttackInvokeProxyClass vaProxy)
+        {
+            Plugin.Log.Error($"Invoking this plugin without a context is not allowed.");
         }
     }
 }
