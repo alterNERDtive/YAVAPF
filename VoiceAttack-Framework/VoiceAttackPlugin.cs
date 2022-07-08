@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using VoiceAttack;
@@ -35,37 +36,26 @@ namespace alterNERDtive.Yavapf
         private VoiceAttackInitProxyClass? vaProxy;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VoiceAttackPlugin"/> class.
-        /// </summary>
-        /// <param name="name">The name of the plugin.</param>
-        /// <param name="version">The current version of the plugin.</param>
-        /// <param name="info">The description of the plugin.</param>
-        /// <param name="guid">The GUID of the plugin.</param>
-        public VoiceAttackPlugin(string name, string version, string info, string guid)
-            => (this.Name, this.Version, this.Info, this.Guid)
-            = (name, version, info, new (guid));
-
-        /// <summary>
         /// Invoked when VoiceAttack initializes the plugin.
         /// </summary>
-        public event Action<VoiceAttackInitProxyClass>? Init;
+        protected event Action<VoiceAttackInitProxyClass>? InitActions;
 
         /// <summary>
         /// Invoked when VoiceAttack closes.
         /// </summary>
-        public event Action<VoiceAttackProxyClass>? Exit;
+        protected event Action<VoiceAttackProxyClass>? ExitActions;
 
         /// <summary>
         /// Invoked when VoiceAttack stops all commands.
         /// </summary>
-        public event Action? Stop;
+        protected event Action? StopActions;
 
         /// <summary>
         /// Gets or sets the Actions to be run when the plugin is invoked from a
         /// VoiceAttack command. Only Actions with a matching “Context”
         /// attribute will be invoked.
         /// </summary>
-        public HandlerList<Action<VoiceAttackInvokeProxyClass>> Contexts { get; set; } = new ();
+        protected HandlerList<Action<VoiceAttackInvokeProxyClass>> Contexts { get; set; } = new ();
 
         /// <summary>
         /// Gets the currently stored VoiceAttackInitProxyClass object which is
@@ -74,30 +64,30 @@ namespace alterNERDtive.Yavapf
         /// You will usually want to use the provided methods and Properties
         /// instead.
         /// </summary>
-        public VoiceAttackInitProxyClass Proxy
+        protected VoiceAttackInitProxyClass Proxy
         {
             get => this.vaProxy!;
         }
 
         /// <summary>
-        /// Gets the name of the plugin.
+        /// Gets or sets the name of the plugin.
         /// </summary>
-        public string Name { get; }
+        public string? Name { get; set; }
 
         /// <summary>
-        /// Gets the current version of the plugin.
+        /// Gets or sets the current version of the plugin.
         /// </summary>
-        public string Version { get; }
+        public string? Version { get; set; }
 
         /// <summary>
-        /// Gets the description of the plugin.
+        /// Gets or sets the description of the plugin.
         /// </summary>
-        public string Info { get; }
+        public string? Info { get; set; }
 
         /// <summary>
-        /// Gets the GUID of the plugin.
+        /// Gets or sets the GUID of the plugin.
         /// </summary>
-        public Guid Guid { get; }
+        public string? Guid { get; set; }
 
         /// <summary>
         /// Gets the <see cref="VoiceAttackLog"/> instance the plugin uses to
@@ -222,26 +212,26 @@ namespace alterNERDtive.Yavapf
         /// The plugin’s display name, as required by the VoiceAttack plugin API.
         /// </summary>
         /// <returns>The display name.</returns>
-        public string VA_DisplayName() => $"{this.Name} v{this.Version}";
+        public string VaDisplayName() => $"{this.Name} v{this.Version}";
 
         /// <summary>
         /// The plugin’s description, as required by the VoiceAttack plugin API.
         /// </summary>
         /// <returns>The description.</returns>
-        public string VA_DisplayInfo() => this.Info;
+        public string VaDisplayInfo() => this.Info;
 
         /// <summary>
         /// The plugin’s GUID, as required by the VoiceAttack plugin API.
         /// </summary>
         /// <returns>The GUID.</returns>
-        public Guid VA_Id() => this.Guid;
+        public Guid VaId() => new (this.Guid);
 
         /// <summary>
         /// The Init method, as required by the VoiceAttack plugin API.
         /// Runs when the plugin is initially loaded.
         /// </summary>
         /// <param name="vaProxy">The VoiceAttack proxy object.</param>
-        public void VA_Init1(VoiceAttackInitProxyClass vaProxy)
+        public void VaInit1(VoiceAttackInitProxyClass vaProxy)
         {
             this.vaProxy = vaProxy;
 
@@ -254,8 +244,28 @@ namespace alterNERDtive.Yavapf
             this.vaProxy.BooleanVariableChanged += this.BooleanVariableChanged;
             this.vaProxy.DateVariableChanged += this.DateVariableChanged;
 
+            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<InitAttribute>().Any()).ToList())
+            {
+                this.InitActions += (Action<VoiceAttackInitProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackInitProxyClass>));
+            }
+
+            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<ExitAttribute>().Any()).ToList())
+            {
+                this.ExitActions += (Action<VoiceAttackProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackProxyClass>));
+            }
+
+            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<StopAttribute>().Any()).ToList())
+            {
+                this.StopActions += (Action)m.CreateDelegate(typeof(Action));
+            }
+
+            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<ContextAttribute>().Any()).ToList())
+            {
+                this.Contexts += (Action<VoiceAttackInvokeProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackInvokeProxyClass>));
+            }
+
             this.Log.Debug("Running Init handlers …");
-            this.Init?.Invoke(vaProxy);
+            this.InitActions?.Invoke(vaProxy);
             this.Log.Debug("Finished running Init handlers.");
 
             this.Set<bool>($"{this.Name}.initialized", true);
@@ -267,7 +277,7 @@ namespace alterNERDtive.Yavapf
         /// Runs whenever a plugin context is invoked.
         /// </summary>
         /// <param name="vaProxy">The VoiceAttack proxy object.</param>
-        public void VA_Invoke1(VoiceAttackInvokeProxyClass vaProxy)
+        public void VaInvoke1(VoiceAttackInvokeProxyClass vaProxy)
         {
             this.vaProxy = vaProxy;
 
@@ -314,9 +324,9 @@ namespace alterNERDtive.Yavapf
         /// Runs when VoiceAttack is shut down.
         /// </summary>
         /// <param name="vaProxy">The VoiceAttack proxy object.</param>
-        public void VA_Exit1(VoiceAttackProxyClass vaProxy)
+        public void VaExit1(VoiceAttackProxyClass vaProxy)
         {
-            this.Exit?.Invoke(vaProxy);
+            this.ExitActions?.Invoke(vaProxy);
         }
 
         /// <summary>
@@ -324,9 +334,9 @@ namespace alterNERDtive.Yavapf
         /// Runs whenever all commands are stopped using the “Stop All Commands”
         /// button or action.
         /// </summary>
-        public void VA_StopCommand()
+        public void VaStopCommand()
         {
-            this.Stop?.Invoke();
+            this.StopActions?.Invoke();
         }
 
         protected void TextVariableChanged(string name, string from, string to, Guid? internalID = null)
@@ -363,16 +373,94 @@ namespace alterNERDtive.Yavapf
                 return handlers;
             }
         }
-    }
 
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class ContextAttribute : Attribute
-    {
-        public string Name { get; }
-
-        public ContextAttribute(string context)
+        protected class InitAttribute : Attribute
         {
-            this.Name = context;
+        }
+
+        protected class ExitAttribute : Attribute
+        {
+        }
+
+        protected class StopAttribute : Attribute
+        {
+        }
+
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+        protected class ContextAttribute : Attribute
+        {
+            public string Name { get; }
+
+            public ContextAttribute(string name)
+            {
+                this.Name = name;
+            }
+        }
+
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+        protected class BoolAttribute : Attribute
+        {
+            public string Name { get; }
+
+            public BoolAttribute(string name)
+            {
+                this.Name = name;
+            }
+        }
+
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+        protected class DateTimeAttribute : Attribute
+        {
+            public string Name { get; }
+
+            public DateTimeAttribute(string name)
+            {
+                this.Name = name;
+            }
+        }
+
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+        protected class DecimalAttribute : Attribute
+        {
+            public string Name { get; }
+
+            public DecimalAttribute(string name)
+            {
+                this.Name = name;
+            }
+        }
+
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+        protected class IntAttribute : Attribute
+        {
+            public string Name { get; }
+
+            public IntAttribute(string name)
+            {
+                this.Name = name;
+            }
+        }
+
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+        protected class ShortAttribute : Attribute
+        {
+            public string Name { get; }
+
+            public ShortAttribute(string name)
+            {
+                this.Name = name;
+            }
+        }
+
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+        protected class StringAttribute : Attribute
+        {
+            public string Name { get; }
+
+            public StringAttribute(string name)
+            {
+                this.Name = name;
+            }
         }
     }
 }

@@ -28,9 +28,9 @@ namespace alterNERDtive.Yavapf.Example
     ///
     /// You can use this class and this project as base for your own implementation.
     /// </summary>
-    public class ExamplePlugin
+    public class ExamplePlugin : VoiceAttackPlugin
     {
-        private static readonly VoiceAttackPlugin Plugin;
+        private static readonly ExamplePlugin Plugin;
 
         /// <summary>
         /// Initializes static members of the <see cref="ExamplePlugin"/> class.
@@ -45,26 +45,16 @@ namespace alterNERDtive.Yavapf.Example
         {
             // You can generate a GUID in Visual Studio under “Tools” → “Create
             // GUID”. Choose “Registry Format”.
-            Plugin = new (
-                name: "Example Plugin",
-                version: "0.0.1",
-                info: "This is a description",
-                guid: "{76FE674F-F729-45FD-A1DD-E53E9E66B360}");
+            Plugin = new ()
+            {
+                Name = "Example Plugin",
+                Version = "0.0.1",
+                Info = "This is a description",
+                Guid = "{76FE674F-F729-45FD-A1DD-E53E9E66B360}",
+            };
 
-            // Add handlers for the Init, Exit and Stop events here. The plugin
-            // will execute them whenever VA_Init1, VA_Exit1 or VA_StopCommand
-            // are run by VoiceAttack.
-            // You can add none or as many as you need.
-            Plugin.Init += Init;
-            Plugin.Exit += Exit;
-            Plugin.Stop += Stop;
-
-            // Add handlers for plugin contexts. The methods added here must
-            // have at least one “Context” attribute specifying the contexts
-            // they are to be executed for.
-            // See the definition of the “Test” method below.
-            Plugin.Contexts += Test;
-            Plugin.Contexts += RegexContext;
+            // Event handlers are mainly added via attributes, see the end of
+            // the file.
 
             // You can even add lambdas! This one logs an explicit error for
             // invoking the plugin without a context.
@@ -85,7 +75,7 @@ namespace alterNERDtive.Yavapf.Example
         /// class for VoiceAttack to pick it up as a plugin.
         /// </summary>
         /// <returns>The display name.</returns>
-        public static string VA_DisplayName() => Plugin.VA_DisplayName();
+        public static string VA_DisplayName() => Plugin.VaDisplayName();
 
         /// <summary>
         /// The plugin’s description, as required by the VoiceAttack plugin API.
@@ -94,7 +84,7 @@ namespace alterNERDtive.Yavapf.Example
         /// class for VoiceAttack to pick it up as a plugin.
         /// </summary>
         /// <returns>The description.</returns>
-        public static string VA_DisplayInfo() => Plugin.VA_DisplayInfo();
+        public static string VA_DisplayInfo() => Plugin.VaDisplayInfo();
 
         /// <summary>
         /// The plugin’s GUID, as required by the VoiceAttack plugin API.
@@ -103,7 +93,7 @@ namespace alterNERDtive.Yavapf.Example
         /// class for VoiceAttack to pick it up as a plugin.
         /// </summary>
         /// <returns>The GUID.</returns>
-        public static Guid VA_Id() => Plugin.VA_Id();
+        public static Guid VA_Id() => Plugin.VaId();
 
         /// <summary>
         /// The Init method, as required by the VoiceAttack plugin API.
@@ -113,7 +103,7 @@ namespace alterNERDtive.Yavapf.Example
         /// class for VoiceAttack to pick it up as a plugin.
         /// </summary>
         /// <param name="vaProxy">The VoiceAttack proxy object.</param>
-        public static void VA_Init1(dynamic vaProxy) => Plugin.VA_Init1(vaProxy);
+        public static void VA_Init1(dynamic vaProxy) => Plugin.VaInit1(vaProxy);
 
         /// <summary>
         /// The Invoke method, as required by the VoiceAttack plugin API.
@@ -123,7 +113,7 @@ namespace alterNERDtive.Yavapf.Example
         /// class for VoiceAttack to pick it up as a plugin.
         /// </summary>
         /// <param name="vaProxy">The VoiceAttack proxy object.</param>
-        public static void VA_Invoke1(dynamic vaProxy) => Plugin.VA_Invoke1(vaProxy);
+        public static void VA_Invoke1(dynamic vaProxy) => Plugin.VaInvoke1(vaProxy);
 
         /// <summary>
         /// The Exit method, as required by the VoiceAttack plugin API.
@@ -133,7 +123,7 @@ namespace alterNERDtive.Yavapf.Example
         /// class for VoiceAttack to pick it up as a plugin.
         /// </summary>
         /// <param name="vaProxy">The VoiceAttack proxy object.</param>
-        public static void VA_Exit1(dynamic vaProxy) => Plugin.VA_Exit1(vaProxy);
+        public static void VA_Exit1(dynamic vaProxy) => Plugin.VaExit1(vaProxy);
 
         /// <summary>
         /// The StopCommand method, as required by the VoiceAttack plugin API.
@@ -143,7 +133,7 @@ namespace alterNERDtive.Yavapf.Example
         /// Since it is required to be static, it must be defined in your plugin
         /// class for VoiceAttack to pick it up as a plugin.
         /// </summary>
-        public static void VA_StopCommand() => Plugin.VA_StopCommand();
+        public static void VA_StopCommand() => Plugin.VaStopCommand();
 
         /// <summary>
         /// An example handler for VA_Init1. Init handlers are the place to do
@@ -151,7 +141,8 @@ namespace alterNERDtive.Yavapf.Example
         /// loaded at VoiceAttack start.
         /// </summary>
         /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
-        private static void Init(VoiceAttackInitProxyClass vaProxy)
+        [Init]
+        public static void Init(VoiceAttackInitProxyClass vaProxy)
         {
             Plugin.Log.Notice("This is the example Init handler method.");
         }
@@ -162,7 +153,8 @@ namespace alterNERDtive.Yavapf.Example
         /// there is a default timeout of 5s.
         /// </summary>
         /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
-        private static void Exit(VoiceAttackProxyClass vaProxy)
+        [Exit]
+        public static void Exit(VoiceAttackProxyClass vaProxy)
         {
             Plugin.Log.Notice("This is the example Exit handler method.");
         }
@@ -171,7 +163,8 @@ namespace alterNERDtive.Yavapf.Example
         /// An example handler for VA_StopCommand. If your plugin needs to
         /// execute anything when all commands are stopped this is the place.
         /// </summary>
-        private static void Stop()
+        [Stop]
+        public static void Stop()
         {
             Plugin.Log.Notice("This is the example Stop handler method.");
         }
@@ -187,7 +180,7 @@ namespace alterNERDtive.Yavapf.Example
         /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
         [Context("test")]
         [Context("different test")]
-        private static void Test(VoiceAttackInvokeProxyClass vaProxy)
+        public static void Test(VoiceAttackInvokeProxyClass vaProxy)
         {
             Plugin.Log.Notice(
                 $"This is the example handler for the plugin contexts “test” and “different test”. It has been invoked with '{vaProxy.Context}'.");
@@ -206,7 +199,7 @@ namespace alterNERDtive.Yavapf.Example
         /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
         [Context("^foo.*")]
         [Context("^.*bar.*")]
-        private static void RegexContext(VoiceAttackInvokeProxyClass vaProxy)
+        public static void RegexContext(VoiceAttackInvokeProxyClass vaProxy)
         {
             Plugin.Log.Notice(
                 $"This is the example handler for the plugin contexts “^foo.*” and “^.*bar.*”. It has been invoked with '{vaProxy.Context}'.");
