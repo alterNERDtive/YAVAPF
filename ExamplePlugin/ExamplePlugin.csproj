@@ -4,6 +4,8 @@
     <TargetFramework>net48</TargetFramework>
     <RootNamespace>alterNERDtive.Yavapf.Example</RootNamespace>
     <Nullable>enable</Nullable>
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

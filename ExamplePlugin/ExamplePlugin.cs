@@ -230,7 +230,7 @@ namespace alterNERDtive.Yavapf.Example
         [String]
         public static void StringChanged(string name, string? from, string? to, Guid? internalID)
         {
-            Plugin.Log.Notice($"This is the example handler for changed string variables. '{name}' changed from '{from ?? "Not Set"}' to '{to}'.");
+            Plugin.Log.Notice($"This is the example handler for changed string variables. '{name}' changed from '{from ?? "Not Set"}' to '{to ?? "Not Set"}'.");
         }
     }
 }

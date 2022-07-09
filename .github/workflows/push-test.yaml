@@ -1,11 +1,11 @@
-﻿name: Run tests on push push
+﻿name: Run tests on push
 
 on:
   push
 
 jobs:
   build:
-    name: Test EDNA
+    name: Run tests
     runs-on: windows-latest
     permissions:
       contents: write

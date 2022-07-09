@@ -265,50 +265,32 @@ namespace alterNERDtive.Yavapf
             this.vaProxy.IntegerVariableChanged += this.IntegerVariableChanged;
             this.vaProxy.TextVariableChanged += this.TextVariableChanged;
 
-            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<InitAttribute>().Any()).ToList())
-            {
-                this.InitActions += (Action<VoiceAttackInitProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackInitProxyClass>));
-            }
+            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<InitAttribute>().Any()).ToList().ForEach(
+                m => this.InitActions += (Action<VoiceAttackInitProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackInitProxyClass>)));
 
-            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<ExitAttribute>().Any()).ToList())
-            {
-                this.ExitActions += (Action<VoiceAttackProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackProxyClass>));
-            }
+            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<ExitAttribute>().Any()).ToList().ForEach(
+                m => this.ExitActions += (Action<VoiceAttackProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackProxyClass>)));
 
-            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<StopAttribute>().Any()).ToList())
-            {
-                this.StopActions += (Action)m.CreateDelegate(typeof(Action));
-            }
+            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<StopAttribute>().Any()).ToList().ForEach(
+                m => this.StopActions += (Action)m.CreateDelegate(typeof(Action)));
 
-            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<ContextAttribute>().Any()).ToList())
-            {
-                this.Contexts += (Action<VoiceAttackInvokeProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackInvokeProxyClass>));
-            }
+            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<ContextAttribute>().Any()).ToList().ForEach(
+                m => this.Contexts += (Action<VoiceAttackInvokeProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackInvokeProxyClass>)));
 
-            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<BoolAttribute>().Any()).ToList())
-            {
-                this.BoolChangedHandlers += (Action<string, bool?, bool?, Guid?>)m.CreateDelegate(typeof(Action<string, bool?, bool?, Guid?>));
-            }
+            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<BoolAttribute>().Any()).ToList().ForEach(
+                m => this.BoolChangedHandlers += (Action<string, bool?, bool?, Guid?>)m.CreateDelegate(typeof(Action<string, bool?, bool?, Guid?>)));
 
-            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<DateTimeAttribute>().Any()).ToList())
-            {
-                this.DateTimeChangedHandlers += (Action<string, DateTime?, DateTime?, Guid?>)m.CreateDelegate(typeof(Action<string, DateTime?, DateTime?, Guid?>));
-            }
+            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<DateTimeAttribute>().Any()).ToList().ForEach(
+                m => this.DateTimeChangedHandlers += (Action<string, DateTime?, DateTime?, Guid?>)m.CreateDelegate(typeof(Action<string, DateTime?, DateTime?, Guid?>)));
 
-            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<DecimalAttribute>().Any()).ToList())
-            {
-                this.DecimalChangedHandlers += (Action<string, decimal?, decimal?, Guid?>)m.CreateDelegate(typeof(Action<string, decimal?, decimal?, Guid?>));
-            }
+            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<DecimalAttribute>().Any()).ToList().ForEach(
+                m => this.DecimalChangedHandlers += (Action<string, decimal?, decimal?, Guid?>)m.CreateDelegate(typeof(Action<string, decimal?, decimal?, Guid?>)));
 
-            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<IntAttribute>().Any()).ToList())
-            {
-                this.IntChangedHandlers += (Action<string, int?, int?, Guid?>)m.CreateDelegate(typeof(Action<string, int?, int?, Guid?>));
-            }
+            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<IntAttribute>().Any()).ToList().ForEach(
+                m => this.IntChangedHandlers += (Action<string, int?, int?, Guid?>)m.CreateDelegate(typeof(Action<string, int?, int?, Guid?>)));
 
-            foreach (MethodInfo m in this.GetType().GetMethods().Where(m => m.GetCustomAttributes<StringAttribute>().Any()).ToList())
-            {
-                this.StringChangedHandlers += (Action<string, string?, string?, Guid?>)m.CreateDelegate(typeof(Action<string, string?, string?, Guid?>));
-            }
+            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<StringAttribute>().Any()).ToList().ForEach(
+                m => this.StringChangedHandlers += (Action<string, string?, string?, Guid?>)m.CreateDelegate(typeof(Action<string, string?, string?, Guid?>)));
 
             this.Log.Debug("Running Init handlers …");
             this.InitActions?.Invoke(vaProxy);
@@ -516,12 +498,24 @@ namespace alterNERDtive.Yavapf
         /// <typeparam name="T">The type of the list.</typeparam>
         protected class HandlerList<T> : List<T>
         {
+            /// <summary>
+            /// Adds a handler to the list.
+            /// </summary>
+            /// <param name="handlers">The list to add to.</param>
+            /// <param name="item">The handler to add.</param>
+            /// <returns>The sum of both.</returns>
             public static HandlerList<T> operator +(HandlerList<T> handlers, T item)
             {
                 handlers.Add(item);
                 return handlers;
             }
 
+            /// <summary>
+            /// Removes a handler from the list.
+            /// </summary>
+            /// <param name="handlers">The list to remove from.</param>
+            /// <param name="item">The handler to remove.</param>
+            /// <returns>The list without the handler.</returns>
             public static HandlerList<T> operator -(HandlerList<T> handlers, T item)
             {
                 handlers.Remove(item);
