@@ -14,9 +14,9 @@ jobs:
 
     steps:
       - name: Install VoiceAttack
-        run: |
-          curl.exe -o VoiceAttackSetup.exe https://voiceattack.com/FileSend.aspx?id=VoiceAttackInstaller64.exe
-          .\VoiceAttackSetup /sp- /verysilent /suppressmsgboxes /norestart /nocloseapplications /norestartapplications /noicons
+        uses: alterNERDtive/setup-voiceattack-action@develop
+        with:
+            version: "1.10"
 
       - name: Checkout source code
         uses: actions/checkout@v2
