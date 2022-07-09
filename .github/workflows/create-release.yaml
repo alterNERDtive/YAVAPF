@@ -13,6 +13,11 @@ jobs:
       contents: write
 
     steps:
+      - name: Install VoiceAttack
+        run: |
+          curl.exe -o VoiceAttackSetup.exe https://voiceattack.com/FileSend.aspx?id=VoiceAttackInstaller64.exe
+          .\VoiceAttackSetup /sp- /verysilent /suppressmsgboxes /norestart /nocloseapplications /norestartapplications /noicons
+
       - name: Checkout source code
         uses: actions/checkout@v2
 
