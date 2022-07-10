@@ -1,10 +1,12 @@
-﻿site_name: "bindED VoiceAttack plugin"
+﻿site_name: "YAVAPF – Yet Another VoiceAttack Plugin Framework"
 site_url: https://alterNERDtive.github.io/YAVAPF
 repo_url: https://github.com/alterNERDtive/YAVAPF
 edit_uri: "edit/devel/docs/"
 site_description: "YAVAPF is yet another VoiceAttack plugin framework."
 site_author: "alterNERDtive"
 remote_name: "origin"
+
+extra_css: [extra.css]
 
 theme:
     name: readthedocs
@@ -18,15 +20,18 @@ markdown_extensions:
     - toc:
         permalink: True
     - sane_lists
+    - pymdownx.tasklist
 
 nav:
     - 'Home': 'index.md'
     - 'Usage':
-        - 'Getting Started': 'gettingstarted.md'
-        - 'Event Handlers': 'events.md'
-        - 'Plugin Contexts': 'contexts.md'
-        - 'Working with Variables': 'variables.md'
-        - 'Running Commands': 'commands.md'
-    - 'troubleshooting.md'
+        - 'gettingstarted.md'
+        - 'events.md'
+        - 'contexts.md'
+        - 'variables.md'
+        - 'commands.md'
+        - 'logging.md'
+    - Troubleshooting:
+        - 'faq.md'
     - '⎋ Changelog': 'https://github.com/alterNERDtive/YAVAPF/blob/release/CHANGELOG.md'
     - '⎋ Report a Bug': 'https://github.com/alterNERDtive/YAVAPF/issues/'

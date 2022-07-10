@@ -19,9 +19,10 @@
 
 using System;
 
+using alterNERDtive.Yavapf;
 using VoiceAttack;
 
-namespace alterNERDtive.Yavapf.Example
+namespace alterNERDtive.Example
 {
     /// <summary>
     /// This is an example for a VoiceAttack plugin using YAVAPF.
@@ -163,7 +164,7 @@ namespace alterNERDtive.Yavapf.Example
         /// An example handler for VA_StopCommand. If your plugin needs to
         /// execute anything when all commands are stopped this is the place.
         /// </summary>
-        [Stop]
+        [StopCommand]
         public static void Stop()
         {
             Plugin.Log.Notice("This is the example Stop handler method.");
@@ -197,8 +198,8 @@ namespace alterNERDtive.Yavapf.Example
         /// contexts that begin with “foo” or contain “bar”.
         /// </summary>
         /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
-        [Context("^foo.*")]
-        [Context("^.*bar.*")]
+        [Context(@"^foo.*")]
+        [Context(@"^.*bar.*")]
         public static void RegexContext(VoiceAttackInvokeProxyClass vaProxy)
         {
             Plugin.Log.Notice(
@@ -212,9 +213,8 @@ namespace alterNERDtive.Yavapf.Example
         /// <param name="name">The name of the variable.</param>
         /// <param name="from">The old value of the variable.</param>
         /// <param name="to">The new value of the variable.</param>
-        /// <param name="internalID">The GUID of the variable.</param>
         [Bool("isDay#")]
-        public static void DayChanged(string name, bool? from, bool? to, Guid? internalID)
+        public static void DayChanged(string name, bool? from, bool? to)
         {
             Plugin.Log.Notice($"This is the example handler for changed bool variables. It is now {(to ?? false ? "day" : "night")}.");
         }
@@ -226,11 +226,14 @@ namespace alterNERDtive.Yavapf.Example
         /// <param name="name">The name of the variable.</param>
         /// <param name="from">The old value of the variable.</param>
         /// <param name="to">The new value of the variable.</param>
-        /// <param name="internalID">The GUID of the variable.</param>
         [String]
-        public static void StringChanged(string name, string? from, string? to, Guid? internalID)
+        public static void StringChanged(string name, string? from, string? to)
         {
-            Plugin.Log.Notice($"This is the example handler for changed string variables. '{name}' changed from '{from ?? "Not Set"}' to '{to ?? "Not Set"}'.");
+            // exclude log level changes
+            if (name != $"{Plugin.Name}.loglevel#")
+            {
+                Plugin.Log.Notice($"This is the example handler for changed string variables. '{name}' changed from '{from ?? "Not Set"}' to '{to ?? "Not Set"}'.");
+            }
         }
     }
 }

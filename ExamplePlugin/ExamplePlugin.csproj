@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <RootNamespace>alterNERDtive.Yavapf.Example</RootNamespace>
+    <RootNamespace>alterNERDtive.Example</RootNamespace>
     <Nullable>enable</Nullable>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -20,6 +20,7 @@
     <Reference Include="VoiceAttack">
       <HintPath>C:\Program Files\VoiceAttack\VoiceAttack.exe</HintPath>
       <Private>False</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
   </ItemGroup>
 

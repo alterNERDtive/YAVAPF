@@ -13,13 +13,23 @@ The goal is to get you up & running with as little code and as little knowledge 
 the inner workings of VoiceAttack as possible.
 
 You can find an [example plugin on
-Github](https://github.com/alterNERDtive/YAVAPF/tree/develop/ExamplePlugin).
+Github](https://github.com/alterNERDtive/YAVAPF/tree/release/ExamplePlugin).
+
+## Current Implementation Status
+
+* [x] VoiceAttack plugin API
+* [x] Handlers for Init/Invoke/Exit/StopCommand
+* [x] Plugin contexts
+* [x] Handlers for variable changed events
+* [x] Logging to the VoiceAttack event log
+* [ ] Logging to a log file
+* [ ] Wrapper for executing commands
+* [ ] Miscellaneous VoiceAttack proxy functionality
+* [ ] Full unit test coverage 😬
 
 ## Need Help / Want to Contribute?
 
-Have a look at [the troubleshooting
-guide](https://alterNERDtive.github.io/YAVAPF/troubleshooting). If your problem
-persists, please [file an
+Have a look at [the FAQ](faq.md). If your problem persists, please [file an
 issue](https://github.com/alterNERDtive/YAVAPF/issues/new). Thanks! :)
 
 You can also [say “Hi” on Discord](https://discord.gg/3pWdJwfJc5) if that is

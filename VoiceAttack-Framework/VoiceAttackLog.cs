@@ -54,8 +54,12 @@ namespace alterNERDtive.Yavapf
             get => logLevel ?? Yavapf.LogLevel.NOTICE;
             set
             {
-                logLevel = value;
-                this.Notice($"Log level set to {value ?? Yavapf.LogLevel.NOTICE}.");
+                if (value != logLevel)
+                {
+                    logLevel = value;
+                    this.vaProxy.SetText($"{this.id}.loglevel#", value.ToString().ToLower());
+                    this.Notice($"Log level set to {value ?? Yavapf.LogLevel.NOTICE}.");
+                }
             }
         }
 
@@ -65,7 +69,9 @@ namespace alterNERDtive.Yavapf
         /// Valid values are ERROR, WARN, NOTICE, INFO and DEBUG.
         /// </summary>
         /// <param name="level">The new log level.</param>
-        public void SetLogLevel(string level)
+        /// <exception cref="ArgumentException">Thrown when <paramref
+        /// name="level"/>is not a valid log level.</exception>
+        public void SetLogLevel(string? level)
         {
             if (level == null)
             {
@@ -74,25 +80,6 @@ namespace alterNERDtive.Yavapf
             else
             {
                 this.LogLevel = (LogLevel)Enum.Parse(typeof(LogLevel), level.ToUpper());
-            }
-        }
-
-        /// <summary>
-        /// Logs a given message with the specified log level.
-        ///
-        /// If the current log level is higher than the message’s log level it
-        /// will not be logged.
-        /// </summary>
-        /// <param name="message">The message to be logged.</param>
-        /// <param name="level">The desired log level.</param>
-        /// <exception cref="ArgumentNullException">Thrown when the message is null.</exception>
-        public void Log(string message, LogLevel level = Yavapf.LogLevel.INFO)
-        {
-            _ = message ?? throw new ArgumentNullException("message");
-
-            if (level <= this.LogLevel)
-            {
-                this.vaProxy.WriteToLog($"{level} | {this.id}: {message}", LogColour[(int)level]);
             }
         }
 
@@ -135,6 +122,25 @@ namespace alterNERDtive.Yavapf
         /// </summary>
         /// <param name="message">The message to be logged.</param>
         public void Debug(string message) => this.Log(message, Yavapf.LogLevel.DEBUG);
+
+        /// <summary>
+        /// Logs a given message with the specified log level.
+        ///
+        /// If the current log level is higher than the message’s log level it
+        /// will not be logged.
+        /// </summary>
+        /// <param name="message">The message to be logged.</param>
+        /// <param name="level">The desired log level.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the message is null.</exception>
+        private void Log(string message, LogLevel level = Yavapf.LogLevel.INFO)
+        {
+            _ = message ?? throw new ArgumentNullException("message");
+
+            if (level <= this.LogLevel)
+            {
+                this.vaProxy.WriteToLog($"{level} | {this.id}: {message}", LogColour[(int)level]);
+            }
+        }
     }
 
     /// <summary>

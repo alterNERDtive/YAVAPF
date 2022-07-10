@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 		mkdocs.yml = mkdocs.yml
 		README.md = README.md
+		requirements.txt = requirements.txt
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
@@ -42,13 +43,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{3FE46F37-0
 		docs\commands.md = docs\commands.md
 		docs\contexts.md = docs\contexts.md
 		docs\events.md = docs\events.md
+		docs\extra.css = docs\extra.css
 		docs\gettingstarted.md = docs\gettingstarted.md
+		docs\faq.md = docs\faq.md
 		docs\index.md = docs\index.md
-		docs\troubleshooting.md = docs\troubleshooting.md
+		docs\logging.md = docs\logging.md
 		docs\variables.md = docs\variables.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceAttack-Framework-Test", "VoiceAttack-Framework-Test\VoiceAttack-Framework-Test.csproj", "{D49B2D9A-1014-4554-977A-E57E9972D196}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoiceAttack-Framework-Test", "VoiceAttack-Framework-Test\VoiceAttack-Framework-Test.csproj", "{D49B2D9A-1014-4554-977A-E57E9972D196}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

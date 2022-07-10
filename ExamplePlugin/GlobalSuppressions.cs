@@ -23,4 +23,4 @@
 // a specific target and scoped to a namespace, type, member, etc.
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "It’s my name, you prick :)", Scope = "namespace", Target = "~N:alterNERDtive.Yavapf.Example")]
+[assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "It’s my name, you prick :)", Scope = "namespace", Target = "~N:alterNERDtive.Example")]

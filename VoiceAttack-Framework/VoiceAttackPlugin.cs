@@ -62,31 +62,31 @@ namespace alterNERDtive.Yavapf
         /// Gets or sets the Actions to be run when a <see cref="bool"/>
         /// variable changed.
         /// </summary>
-        protected HandlerList<Action<string, bool?, bool?, Guid?>> BoolChangedHandlers { get; set; } = new ();
+        protected HandlerList<Action<string, bool?, bool?>> BoolChangedHandlers { get; set; } = new ();
 
         /// <summary>
         /// Gets or sets the Actions to be run when a <see cref="DateTime"/>
         /// variable changed.
         /// </summary>
-        protected HandlerList<Action<string, DateTime?, DateTime?, Guid?>> DateTimeChangedHandlers { get; set; } = new ();
+        protected HandlerList<Action<string, DateTime?, DateTime?>> DateTimeChangedHandlers { get; set; } = new ();
 
         /// <summary>
         /// Gets or sets the Actions to be run when a <see cref="decimal"/>
         /// variable changed.
         /// </summary>
-        protected HandlerList<Action<string, decimal?, decimal?, Guid?>> DecimalChangedHandlers { get; set; } = new ();
+        protected HandlerList<Action<string, decimal?, decimal?>> DecimalChangedHandlers { get; set; } = new ();
 
         /// <summary>
         /// Gets or sets the Actions to be run when a <see cref="int"/>
         /// variable changed.
         /// </summary>
-        protected HandlerList<Action<string, int?, int?, Guid?>> IntChangedHandlers { get; set; } = new ();
+        protected HandlerList<Action<string, int?, int?>> IntChangedHandlers { get; set; } = new ();
 
         /// <summary>
         /// Gets or sets the Actions to be run when a <see cref="string"/>
         /// variable changed.
         /// </summary>
-        protected HandlerList<Action<string, string?, string?, Guid?>> StringChangedHandlers { get; set; } = new ();
+        protected HandlerList<Action<string, string?, string?>> StringChangedHandlers { get; set; } = new ();
 
         /// <summary>
         /// Gets the currently stored VoiceAttackInitProxyClass object which is
@@ -271,26 +271,26 @@ namespace alterNERDtive.Yavapf
             this.GetType().GetMethods().Where(m => m.GetCustomAttributes<ExitAttribute>().Any()).ToList().ForEach(
                 m => this.ExitActions += (Action<VoiceAttackProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackProxyClass>)));
 
-            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<StopAttribute>().Any()).ToList().ForEach(
+            this.GetType().GetMethods().Where(m => m.GetCustomAttributes<StopCommandAttribute>().Any()).ToList().ForEach(
                 m => this.StopActions += (Action)m.CreateDelegate(typeof(Action)));
 
             this.GetType().GetMethods().Where(m => m.GetCustomAttributes<ContextAttribute>().Any()).ToList().ForEach(
                 m => this.Contexts += (Action<VoiceAttackInvokeProxyClass>)m.CreateDelegate(typeof(Action<VoiceAttackInvokeProxyClass>)));
 
             this.GetType().GetMethods().Where(m => m.GetCustomAttributes<BoolAttribute>().Any()).ToList().ForEach(
-                m => this.BoolChangedHandlers += (Action<string, bool?, bool?, Guid?>)m.CreateDelegate(typeof(Action<string, bool?, bool?, Guid?>)));
+                m => this.BoolChangedHandlers += (Action<string, bool?, bool?>)m.CreateDelegate(typeof(Action<string, bool?, bool?>)));
 
             this.GetType().GetMethods().Where(m => m.GetCustomAttributes<DateTimeAttribute>().Any()).ToList().ForEach(
-                m => this.DateTimeChangedHandlers += (Action<string, DateTime?, DateTime?, Guid?>)m.CreateDelegate(typeof(Action<string, DateTime?, DateTime?, Guid?>)));
+                m => this.DateTimeChangedHandlers += (Action<string, DateTime?, DateTime?>)m.CreateDelegate(typeof(Action<string, DateTime?, DateTime?>)));
 
             this.GetType().GetMethods().Where(m => m.GetCustomAttributes<DecimalAttribute>().Any()).ToList().ForEach(
-                m => this.DecimalChangedHandlers += (Action<string, decimal?, decimal?, Guid?>)m.CreateDelegate(typeof(Action<string, decimal?, decimal?, Guid?>)));
+                m => this.DecimalChangedHandlers += (Action<string, decimal?, decimal?>)m.CreateDelegate(typeof(Action<string, decimal?, decimal?>)));
 
             this.GetType().GetMethods().Where(m => m.GetCustomAttributes<IntAttribute>().Any()).ToList().ForEach(
-                m => this.IntChangedHandlers += (Action<string, int?, int?, Guid?>)m.CreateDelegate(typeof(Action<string, int?, int?, Guid?>)));
+                m => this.IntChangedHandlers += (Action<string, int?, int?>)m.CreateDelegate(typeof(Action<string, int?, int?>)));
 
             this.GetType().GetMethods().Where(m => m.GetCustomAttributes<StringAttribute>().Any()).ToList().ForEach(
-                m => this.StringChangedHandlers += (Action<string, string?, string?, Guid?>)m.CreateDelegate(typeof(Action<string, string?, string?, Guid?>)));
+                m => this.StringChangedHandlers += (Action<string, string?, string?>)m.CreateDelegate(typeof(Action<string, string?, string?>)));
 
             this.Log.Debug("Running Init handlers …");
             this.InitActions?.Invoke(vaProxy);
@@ -311,33 +311,79 @@ namespace alterNERDtive.Yavapf
 
             string context = vaProxy.Context.ToLower();
 
-            List<Action<VoiceAttackInvokeProxyClass>> actions = this.Contexts.Where(
-                action => action.Method.GetCustomAttributes<ContextAttribute>().Where(
-                    attr => attr.Name == context ||
-                        (attr.Name.StartsWith("^") && Regex.Match(context, attr.Name).Success))
-                        .Any()).ToList();
-
-            if (actions.Any())
+            if (context.StartsWith("log."))
             {
-                foreach (Action<VoiceAttackInvokeProxyClass> action in actions)
+                try
                 {
-                    try
+                    string message = this.Get<string>("~message") ?? throw new ArgumentNullException("~message");
+                    switch (context)
                     {
-                        action.Invoke(vaProxy);
+                        case "log.error":
+                            this.Log.Error(message);
+                            break;
+                        case "log.warn":
+                            this.Log.Warn(message);
+                            break;
+                        case "log.notice":
+                            this.Log.Notice(message);
+                            break;
+                        case "log.info":
+                            this.Log.Info(message);
+                            break;
+                        case "log.debug":
+                            this.Log.Debug(message);
+                            break;
+                        default:
+                            throw new ArgumentException("invalid context", "context");
                     }
-                    catch (ArgumentNullException e)
-                    {
-                        this.Log.Error($"Missing parameter '{e.ParamName}' for context '{context}'");
-                    }
-                    catch (Exception e)
-                    {
-                        this.Log.Error($"Unhandled exception while executing plugin context '{context}': {e.Message}");
-                    }
+                }
+                catch (ArgumentNullException e)
+                {
+                    this.Log.Error($"Missing parameter '{e.ParamName}' for context '{context}'");
+                }
+                catch (ArgumentException e) when (e.ParamName == "context")
+                {
+                    this.Log.Error($"Invalid plugin context '{vaProxy.Context}'.");
+                }
+                catch (Exception e)
+                {
+                    this.Log.Error($"Unhandled exception while executing plugin context '{context}': {e.Message}");
                 }
             }
             else
             {
-                this.Log.Error($"Invalid plugin context '{vaProxy.Context}'.");
+                List<Action<VoiceAttackInvokeProxyClass>> actions = this.Contexts.Where(
+                    action => action.Method.GetCustomAttributes<ContextAttribute>().Where(
+                        attr => attr.Name == context ||
+                            (attr.Name.StartsWith("^") && Regex.Match(context, attr.Name).Success))
+                            .Any()).ToList();
+
+                if (actions.Any())
+                {
+                    foreach (Action<VoiceAttackInvokeProxyClass> action in actions)
+                    {
+                        try
+                        {
+                            action.Invoke(vaProxy);
+                        }
+                        catch (ArgumentNullException e)
+                        {
+                            this.Log.Error($"Missing parameter '{e.ParamName}' for context '{context}'");
+                        }
+                        catch (ArgumentException e) when (e.ParamName == "context")
+                        {
+                            this.Log.Error($"Invalid plugin context '{vaProxy.Context}'.");
+                        }
+                        catch (Exception e)
+                        {
+                            this.Log.Error($"Unhandled exception while executing plugin context '{context}': {e.Message}");
+                        }
+                    }
+                }
+                else
+                {
+                    this.Log.Error($"Invalid plugin context '{vaProxy.Context}'.");
+                }
             }
         }
 
@@ -370,7 +416,7 @@ namespace alterNERDtive.Yavapf
         /// <param name="internalID">The internal GUID of the variable.</param>
         private void BooleanVariableChanged(string name, bool? from, bool? to, Guid? internalID = null)
         {
-            foreach (Action<string, bool?, bool?, Guid?> action in this.BoolChangedHandlers.Where(
+            foreach (Action<string, bool?, bool?> action in this.BoolChangedHandlers.Where(
                 action => action.Method.GetCustomAttributes<BoolAttribute>().Where(
                     attr => attr.Name == name ||
                     (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
@@ -378,7 +424,7 @@ namespace alterNERDtive.Yavapf
             {
                 try
                 {
-                    action.Invoke(name, from, to, internalID);
+                    action.Invoke(name, from, to);
                 }
                 catch (Exception e)
                 {
@@ -396,7 +442,7 @@ namespace alterNERDtive.Yavapf
         /// <param name="internalID">The internal GUID of the variable.</param>
         private void DateVariableChanged(string name, DateTime? from, DateTime? to, Guid? internalID = null)
         {
-            foreach (Action<string, DateTime?, DateTime?, Guid?> action in this.DateTimeChangedHandlers.Where(
+            foreach (Action<string, DateTime?, DateTime?> action in this.DateTimeChangedHandlers.Where(
                 action => action.Method.GetCustomAttributes<DateTimeAttribute>().Where(
                     attr => attr.Name == name ||
                     (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
@@ -404,7 +450,7 @@ namespace alterNERDtive.Yavapf
             {
                 try
                 {
-                    action.Invoke(name, from, to, internalID);
+                    action.Invoke(name, from, to);
                 }
                 catch (Exception e)
                 {
@@ -422,7 +468,7 @@ namespace alterNERDtive.Yavapf
         /// <param name="internalID">The internal GUID of the variable.</param>
         private void DecimalVariableChanged(string name, decimal? from, decimal? to, Guid? internalID = null)
         {
-            foreach (Action<string, decimal?, decimal?, Guid?> action in this.DecimalChangedHandlers.Where(
+            foreach (Action<string, decimal?, decimal?> action in this.DecimalChangedHandlers.Where(
                 action => action.Method.GetCustomAttributes<DecimalAttribute>().Where(
                     attr => attr.Name == name ||
                     (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
@@ -430,7 +476,7 @@ namespace alterNERDtive.Yavapf
             {
                 try
                 {
-                    action.Invoke(name, from, to, internalID);
+                    action.Invoke(name, from, to);
                 }
                 catch (Exception e)
                 {
@@ -448,7 +494,7 @@ namespace alterNERDtive.Yavapf
         /// <param name="internalID">The internal GUID of the variable.</param>
         private void IntegerVariableChanged(string name, int? from, int? to, Guid? internalID = null)
         {
-            foreach (Action<string, int?, int?, Guid?> action in this.IntChangedHandlers.Where(
+            foreach (Action<string, int?, int?> action in this.IntChangedHandlers.Where(
                 action => action.Method.GetCustomAttributes<IntAttribute>().Where(
                     attr => attr.Name == name ||
                     (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
@@ -456,7 +502,7 @@ namespace alterNERDtive.Yavapf
             {
                 try
                 {
-                    action.Invoke(name, from, to, internalID);
+                    action.Invoke(name, from, to);
                 }
                 catch (Exception e)
                 {
@@ -474,7 +520,19 @@ namespace alterNERDtive.Yavapf
         /// <param name="internalID">The internal GUID of the variable.</param>
         private void TextVariableChanged(string name, string? from, string? to, Guid? internalID = null)
         {
-            foreach (Action<string, string?, string?, Guid?> action in this.StringChangedHandlers.Where(
+            if (name == $"{this.Name}.loglevel#")
+            {
+                try
+                {
+                    this.Log.SetLogLevel(to);
+                }
+                catch (ArgumentException)
+                {
+                    this.Log.Error($"Error setting log level: '{to!}' is not a valid log level.");
+                }
+            }
+
+            foreach (Action<string, string?, string?> action in this.StringChangedHandlers.Where(
                 action => action.Method.GetCustomAttributes<StringAttribute>().Where(
                     attr => attr.Name == name ||
                     (attr.Name.StartsWith("^") && Regex.Match(name, attr.Name).Success))
@@ -482,7 +540,7 @@ namespace alterNERDtive.Yavapf
             {
                 try
                 {
-                    action.Invoke(name, from, to, internalID);
+                    action.Invoke(name, from, to);
                 }
                 catch (Exception e)
                 {
@@ -545,7 +603,7 @@ namespace alterNERDtive.Yavapf
         /// Denotes a handler for <see cref="VaStopCommand()"/>.
         /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
-        protected class StopAttribute : Attribute
+        protected class StopCommandAttribute : Attribute
         {
         }
 
@@ -562,7 +620,7 @@ namespace alterNERDtive.Yavapf
             /// <param name="name">The name of or regex for the context.</param>
             public ContextAttribute(string name)
             {
-                this.Name = name;
+                this.Name = name.ToLower();
             }
 
             /// <summary>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace alterNERDtive.Yavapf.Example.Properties {
+namespace alterNERDtive.Example.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

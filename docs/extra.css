@@ -1,0 +1,5 @@
+﻿div.section > p,
+div.section > ol,
+div.section > ul {
+    text-align: justify
+}

@@ -1,1 +1,2 @@
-mkdocs-roamlinks-plugin
+﻿mkdocs-roamlinks-plugin
+pymdown-extensions
