@@ -139,11 +139,13 @@ namespace alterNERDtive.Yavapf
         /// </summary>
         /// <typeparam name="T">The type of the variable.</typeparam>
         /// <param name="name">The name of the variable.</param>
+        /// <param name="suppressWarning">Whether to suppress the race condition
+        /// warning on accessing command scoped variables.</param>
         /// <returns>The value of the variable. Can be null.</returns>
         /// <exception cref="InvalidDataException">Thrown when the variable is of an invalid type.</exception>
-        protected T? Get<T>(string name)
+        protected T? Get<T>(string name, bool suppressWarning = false)
         {
-            if (name.StartsWith("~"))
+            if (name.StartsWith("~") && !suppressWarning)
             {
                 this.Log.Warn(
                     $"Accessing command scoped variable '{name}' outside of its context proxy object. This might lead to race conditions.");
@@ -161,10 +163,12 @@ namespace alterNERDtive.Yavapf
         /// <typeparam name="T">The type of the variable.</typeparam>
         /// <param name="name">The name of the variable.</param>
         /// <param name="value">The value of the variable. Can not be null.</param>
+        /// <param name="suppressWarning">Whether to suppress the race condition
+        /// warning on accessing command scoped variables.</param>
         /// <exception cref="InvalidDataException">Thrown when the variable is of an invalid type.</exception>
-        protected void Set<T>(string name, T? value)
+        protected void Set<T>(string name, T? value, bool suppressWarning = false)
         {
-            if (name.StartsWith("~"))
+            if (name.StartsWith("~") && !suppressWarning)
             {
                 this.Log.Warn(
                     $"Accessing command scoped variable '{name}' outside of its context proxy object. This might lead to race conditions.");
@@ -181,10 +185,12 @@ namespace alterNERDtive.Yavapf
         /// </summary>
         /// <typeparam name="T">The type of the variable.</typeparam>
         /// <param name="name">The name of the variable.</param>
+        /// <param name="suppressWarning">Whether to suppress the race condition
+        /// warning on accessing command scoped variables.</param>
         /// <exception cref="InvalidDataException">Thrown when the variable is of an invalid type.</exception>
-        protected void Unset<T>(string name)
+        protected void Unset<T>(string name, bool suppressWarning = false)
         {
-            if (name.StartsWith("~"))
+            if (name.StartsWith("~") && !suppressWarning)
             {
                 this.Log.Warn(
                     $"Accessing command scoped variable '{name}' outside of its context proxy object. This might lead to race conditions.");

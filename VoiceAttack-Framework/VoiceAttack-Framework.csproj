@@ -4,7 +4,7 @@
     <TargetFrameworks>net48</TargetFrameworks>
     <RootNamespace>alterNERDtive.Yavapf</RootNamespace>
     <PackageId>alterNERDtive.YAVAPF</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Company>alterNERDtive</Company>
     <Authors>alterNERDtive</Authors>
     <Description>YAVAPF is yet another VoiceAttack plugin framework.</Description>
