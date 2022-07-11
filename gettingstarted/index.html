@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="alterNERDtive" /><link rel="canonical" href="https://alterNERDtive.github.io/YAVAPF/gettingstarted/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Getting Started - YAVAPF – Yet Another VoiceAttack Plugin Framework</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Getting Started";
+        var mkdocs_page_input_path = "gettingstarted.md";
+        var mkdocs_page_url = "/YAVAPF/gettingstarted/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> YAVAPF – Yet Another VoiceAttack Plugin Framework
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Usage</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Getting Started</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#creating-a-visual-studio-project">Creating a Visual Studio Project</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adding-yavapf-as-a-dependency">Adding YAVAPF as a Dependency</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adding-voiceattack-as-a-dependency">Adding VoiceAttack as a Dependency</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#setting-up-debugging-through-voiceattack">Setting Up Debugging Through VoiceAttack</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#building-through-github-actions">Building Through Github Actions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#creating-a-minimum-viable-plugin">Creating a Minimum Viable Plugin</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../events/">Handling VoiceAttack Events</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../contexts/">Defining Plugin Contexts</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../variables/">Using VoiceAttack Variables</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../commands/">Executing VoiceAttack Commands</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../logging/">Logging</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../faq/">Frequently Asked Questions</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/alterNERDtive/YAVAPF/blob/release/CHANGELOG.md">⎋ Changelog</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/alterNERDtive/YAVAPF/issues/">⎋ Report a Bug</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">YAVAPF – Yet Another VoiceAttack Plugin Framework</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Usage &raquo;</li><li>Getting Started</li>
+    <li class="wy-breadcrumbs-aside">
+        <a href="https://github.com/alterNERDtive/YAVAPF/edit/devel/docs/gettingstarted.md"
+          class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+    <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Breadcrumb Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left" aria-hidden="true"></span> Previous</a>
+        <a href="../events/" class="btn btn-neutral float-right" title="Handling VoiceAttack Events">Next <span class="icon icon-circle-arrow-right" aria-hidden="true"></span></a>
+    </div>
+  <hr/>
+</div>
+
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
+<p>First off, you can see <a href="https://github.com/alterNERDtive/YAVAPF/tree/release/ExamplePlugin">the Example plugin
+project</a> on
+Github for reference.</p>
+<p>Second off, this documentation assumes that you have at least cross read the
+section about plugins <a href="https://voiceattack.com/VoiceAttackHelp.pdf">in the VoiceAttack
+manual</a>. If any terminology is new
+to you, it is probably introduced there. Unlike said manual though this will
+provide step by step instructions to get your plugin set up.</p>
+<h2 id="creating-a-visual-studio-project">Creating a Visual Studio Project<a class="headerlink" href="#creating-a-visual-studio-project" title="Permanent link">&para;</a></h2>
+<p>I am going to assume for this part of the documentation that you are using
+Visual Studio 2022 or later (<em>not</em> Visual Studio Code!) as your development
+environment. <a href="https://visualstudio.microsoft.com/vs/compare/">The Community Edition is free for unlimited time personal
+use</a>.</p>
+<p>VoiceAttack is a .Net Framework 4.8 application. Plugins targeting .Net 5+ or
+.Net Core will not work. I still recommend creating a .Net project instead of a
+.Net Framework project, then changing the “Target Framework” to .Net Framework
+4.8. This allows you to use the full <code>dotnet</code> tool chain, which makes e.g. using
+Github Actions to build / release your project much less painful. Trust me, I’ve
+done it both ways.</p>
+<p>So, create a new “Class Library” project, then use a text editor to change the
+“TargetFrameworks” property to <code>net48</code>. While you’re there you might also want
+to change the “LanguageVerison” to <code>10</code>. Most new features are backwards
+compatible with .Net Framework. The compiler will assist you with errors for
+those that are not.</p>
+<h2 id="adding-yavapf-as-a-dependency">Adding YAVAPF as a Dependency<a class="headerlink" href="#adding-yavapf-as-a-dependency" title="Permanent link">&para;</a></h2>
+<p>This one is the simple part, just install <code>alterNERDtive.YAVAPF</code> through NuGet.
+Done.</p>
+<p>Alternatively you can add it manually by cloning
+<code>github.com/alterNERDtive/YAVAPF.git</code> as a git submodule and referencing
+<code>VoiceAttack-Framework\VoiceAttack-Framework.csproj</code> as a project reference.</p>
+<p>But seriously, use NuGet. I haven’t taught myself how to release NuGet packages
+just for you to ignore it!</p>
+<h2 id="adding-voiceattack-as-a-dependency">Adding VoiceAttack as a Dependency<a class="headerlink" href="#adding-voiceattack-as-a-dependency" title="Permanent link">&para;</a></h2>
+<p>This is a little more involved. In order to use the actual proxy classes from
+VoiceAttack instead of the “official” crutch of <code>dynamic</code> types, you will need
+to add an assembly reference to <code>VoiceAttack.exe</code>.</p>
+<p>Right click → “Add” → “Assembly Reference…” → “Browse” → browse to the
+VoiceAttack installation folder → select <code>VoiceAttack.exe</code> → hit “Add” → make
+sure it is ticked in the list → hit “OK”.</p>
+<p>Now, we want to <em>reference</em> <code>VoiceAttack.exe</code>, but we don’t want to <em>include</em> it
+when compiling the plugin. So select “VoiceAttack” in “Dependencies” →
+“Assemblies” and make sure that both “Copy Local” and “Embed Interop Types” are
+set to “No”.</p>
+<p>Distributing <code>VoiceAttack.exe</code> with your plugin would technically be a copyright
+violation. <em>Do</em> make sure to take the steps outlined in the last paragraph to
+prevent accidentally doing that! Using it as a reference assembly is generally
+OK and I have received confirmation from Gary, the author of VoiceAttack.</p>
+<h2 id="setting-up-debugging-through-voiceattack">Setting Up Debugging Through VoiceAttack<a class="headerlink" href="#setting-up-debugging-through-voiceattack" title="Permanent link">&para;</a></h2>
+<p>In order to be able to run VoiceAttack when debugging and actually debug your
+plugin, you will need to open “Debug” → “&lt;your project> Debug Properties”.</p>
+<p>There you will need to “Create a new profile” → “Executable”. Set the path to
+your VoiceAttack executable and any command line options you might prefer.
+Personally I like to set a custom <code>-datadir</code> in order to not mess with my
+regular profile database accidentally.</p>
+<p>The example plugin project has a <code>Properties\launchSettings.sample.json</code> file
+that you can copy to <code>Properties\launchSettings.json</code> and edit accordingly to
+accomplish the same thing.</p>
+<p>The last thing you’ll need to do is make your plugin available to VoiceAttack
+in a place where it can find it. I have requested an equivalent <code>-appdir</code>
+parameter, but as long as that is not available you will need to have your
+plugin present inside the regular <code>Apps</code> folder of VoiceAttack. I recommend
+creating a directory junction (<code>mklink /j</code>, or <code>New-Item -ItemType Junction</code> in
+PowerShell) between an <code>Apps</code> subfolder and your project’s debug output
+directory (usually <code>&lt;project name&gt;\bin\Debug\net48</code> inside your solution
+folder).</p>
+<h2 id="building-through-github-actions">Building Through Github Actions<a class="headerlink" href="#building-through-github-actions" title="Permanent link">&para;</a></h2>
+<p>If you, like me, want to automate building/testing/releasing through <a href="https://docs.github.com/en/actions">Github
+Actions</a>, you’ll need to have VoiceAttack
+available while building on the worker. Obviously that will only work on a
+Windows worker.</p>
+<p>I have created the
+<a href="https://github.com/alterNERDtive/setup-voiceattack-action"><code>alterNERDtive/setup-voiceattack-action</code></a>
+to facilitate that. Usage example:</p>
+<pre><code class="language-yaml">- name: Install VoiceAttack
+  uses: alterNERDtive/setup-voiceattack-action
+  with:
+    version: &quot;1.10&quot;
+</code></pre>
+<p>Make sure that the path to VoiceAttack on your machine (which is the path
+referenced in the project file) matches the path where you install VoiceAttack
+on the worker! Alternatively, if you have installed VoiceAttack in a custom
+folder locally, you can create a symlink (<code>mklink</code>, or
+<code>New-Item -ItemType SymbolicLink</code> in PowerShell) to your <code>VoiceAttack.exe</code>
+location at <code>C:\Program Files\VoiceAttack\VoiceAttack.exe</code> and include that as
+the assembly reference.</p>
+<h2 id="creating-a-minimum-viable-plugin">Creating a Minimum Viable Plugin<a class="headerlink" href="#creating-a-minimum-viable-plugin" title="Permanent link">&para;</a></h2>
+<p>A valid VoiceAttack plugin must implement a selection of public, static methods:</p>
+<ul>
+<li><code>VA_DisplayName()</code>: Must return the name of the plugin.</li>
+<li><code>VA_DisplayInfo()</code>: Must return the description of the plugin.</li>
+<li><code>VA_Id()</code>: Must return the GUID of the plugin.</li>
+<li><code>VA_Init1(dynamic)</code>: Is executed when the plugin is loaded into VoiceAttack.</li>
+<li><code>VA_Invoke1(dynamic)</code>: Is executed whenever a plugin context is run from a
+  command.</li>
+<li><code>VA_Exit1(dynamic)</code>: Is executed when VoiceAttack shuts down.</li>
+<li><code>VA_StopCommand()</code>: Is executed when VoiceAttack stops all commands, e.g.
+  through the command action or main interface button.</li>
+</ul>
+<p>When using YAVAPF these methods are to be passed straight to the corresponding
+methods of a <code>VoiceAttackPlugin</code> object that handles most things for you. It has
+a few required properties:</p>
+<ul>
+<li><code>Name</code>: The name of the plugin.</li>
+<li><code>Version</code>: The version of the plugin.</li>
+<li><code>Info</code>: The description of the plugin.</li>
+<li><code>Guid</code>: The GUID of the plugin.</li>
+</ul>
+<p>All of those are <code>string</code>s for ease of use, though the <code>Guid</code> obviously has to
+be a valid string representation of a GUID. You can generate one using “Tools” →
+“Create GUID”. Make sure to select “Registry Format”.</p>
+<p>For a YAVAPF plugin you will have to derive your plugin class from
+<code>alterNERDtive.Yavapf.VoiceAttackPlugin</code>. Since VoiceAttack’s plugin API relies
+entirely on static methods, you’ll need to instantiate your plugin object in its
+static constructor and hold it in a static variable for future reference (no pun
+intended).</p>
+<p>So a minimum viable plugin using YAVAPF looks kind of like this:</p>
+<pre><code class="language-csharp">using System;
+
+using alterNERDtive.Yavapf;
+
+namespace YourNamespace
+{
+    public class YourPlugin : VoiceAttackPlugin
+    {
+        private static readonly YourPlugin Plugin;
+
+        static YourPlugin()
+        {
+            Plugin = new ()
+            {
+                Name = &quot;Your Plugin&quot;,
+                Version = &quot;0.0.1&quot;,
+                Info = &quot;This is a description&quot;,
+                Guid = &quot;{5E93F293-B2CB-4B3F-AFC5-AE500A7EEBA9}&quot;,
+            };
+        }
+
+        public static string VA_DisplayName() =&gt; Plugin.VaDisplayName();
+
+        public static string VA_DisplayInfo() =&gt; Plugin.VaDisplayInfo();
+
+        public static Guid VA_Id() =&gt; Plugin.VaId();
+
+        public static void VA_Init1(dynamic vaProxy) =&gt; Plugin.VaInit1(vaProxy);
+
+        public static void VA_Invoke1(dynamic vaProxy) =&gt; Plugin.VaInvoke1(vaProxy);
+
+        public static void VA_Exit1(dynamic vaProxy) =&gt; Plugin.VaExit1(vaProxy);
+
+        public static void VA_StopCommand() =&gt; Plugin.VaStopCommand();
+    }
+}
+</code></pre>
+<p>That’s it! Technically you’re done. Hit the debug button, and VoiceAttack should
+find your plugin on startup, report loading it in the event log, and list it
+under “Options” → “General” → “Plugin Manager”.</p>
+<p>Of course you are only just getting started if you want your plugin to actually
+<em>do</em> something!</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../events/" class="btn btn-neutral float-right" title="Handling VoiceAttack Events">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/alterNERDtive/YAVAPF" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../events/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

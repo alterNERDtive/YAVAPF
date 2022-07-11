@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="alterNERDtive" /><link rel="canonical" href="https://alterNERDtive.github.io/YAVAPF/contexts/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Defining Plugin Contexts - YAVAPF – Yet Another VoiceAttack Plugin Framework</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Defining Plugin Contexts";
+        var mkdocs_page_input_path = "contexts.md";
+        var mkdocs_page_url = "/YAVAPF/contexts/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> YAVAPF – Yet Another VoiceAttack Plugin Framework
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Usage</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../gettingstarted/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../events/">Handling VoiceAttack Events</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Defining Plugin Contexts</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#named-plugin-contexts">Named Plugin Contexts</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#regular-expression-plugin-contexts">Regular Expression Plugin Contexts</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#catchall-plugin-contexts">“Catchall” Plugin Contexts</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#context-parameters">Context Parameters</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../variables/">Using VoiceAttack Variables</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../commands/">Executing VoiceAttack Commands</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../logging/">Logging</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../faq/">Frequently Asked Questions</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/alterNERDtive/YAVAPF/blob/release/CHANGELOG.md">⎋ Changelog</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/alterNERDtive/YAVAPF/issues/">⎋ Report a Bug</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">YAVAPF – Yet Another VoiceAttack Plugin Framework</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Usage &raquo;</li><li>Defining Plugin Contexts</li>
+    <li class="wy-breadcrumbs-aside">
+        <a href="https://github.com/alterNERDtive/YAVAPF/edit/devel/docs/contexts.md"
+          class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+    <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Breadcrumb Navigation">
+        <a href="../events/" class="btn btn-neutral float-left" title="Handling VoiceAttack Events"><span class="icon icon-circle-arrow-left" aria-hidden="true"></span> Previous</a>
+        <a href="../variables/" class="btn btn-neutral float-right" title="Using VoiceAttack Variables">Next <span class="icon icon-circle-arrow-right" aria-hidden="true"></span></a>
+    </div>
+  <hr/>
+</div>
+
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="defining-plugin-contexts">Defining Plugin Contexts<a class="headerlink" href="#defining-plugin-contexts" title="Permanent link">&para;</a></h1>
+<p>Plugin contexts are defined similarly to <a href="../events/">event handlers</a>.</p>
+<p>They are <code>public static</code> methods of your plugin class that must have a
+<code>ContextAttribute</code> and must accept a <code>VoiceAttackInvokeProxyClass</code> parameter.</p>
+<p><code>ContextAttribute</code> has a single property <code>Name</code>. <code>Name</code> can either be the name
+of a plugin context or a regular expression defining all plugin contexts it
+should be associated with. <code>Name</code> is set through an optional parameter of the
+attribute constructor; if it is omitted, the method will be executed for any
+plugin context.</p>
+<p>A method can have multiple <code>ContextAttribute</code>s. It will be executed if any of
+them matches the context of a plugin invocation. That also means that you can
+have several methods that handle the same plugin context; as with <a href="../events/">event
+handlers</a>, a specific order of execution cannot be guaranteed.</p>
+<p>If your method handles multiple contexts, the context it was invoked with can be
+found in the <code>Context</code> property of its <code>VoiceAttackInvokeProxyClass</code> parameter.</p>
+<p><strong>Note</strong>: The <code>log.*</code> context is reserved <a href="../logging/#from-a-voiceattack-command">for
+logging</a> and cannot be used for your
+plugin.</p>
+<h2 id="named-plugin-contexts">Named Plugin Contexts<a class="headerlink" href="#named-plugin-contexts" title="Permanent link">&para;</a></h2>
+<p>For singular context names, add a <code>ContextAttribute</code> for each name. Context
+names are to be lower case by convention.</p>
+<p>This should be the default way to handle plugin contexts, and multiple contexts
+handled by the same method should be alternate names for the same functionality.
+Separate functionality, separate handler method(s).</p>
+<pre><code class="language-csharp">[Context(&quot;test&quot;)]
+[Context(&quot;test context&quot;)]
+[Context(&quot;alternate context name&quot;)]
+public static void TestContext(VoiceAttackInvokeProxyClass vaProxy)
+{
+    […]
+}
+</code></pre>
+<h2 id="regular-expression-plugin-contexts">Regular Expression Plugin Contexts<a class="headerlink" href="#regular-expression-plugin-contexts" title="Permanent link">&para;</a></h2>
+<p>For contexts defined by regular expressions, the <code>Name</code> property must start with
+a <code>^</code> to be recognized as a regular expression. Incidentally that means you have
+to define your regular expression to match from the beginning of the context
+string.</p>
+<p>The main use case for regular expression contexts is grouping contexts that
+logically belong together or behave in very similar ways. For example you could
+have a single <code>^edsm\..*</code> context in an Elite Dangerous related plugin that
+handles anything related to querying <a href="https://edsm.net">EDSM</a>.</p>
+<p>As with <a href="#catchall-plugin-contexts">catchall contexts</a>, you should probably have
+some kind of way to differentiate between contexts. For any contexts that match
+the regular expression(s) but are not valid contexts for your plugin, <code>throw</code> an
+<code>ArgumentException</code> with “context” as the parameter name. The exception message
+can be anything, it will not be used.</p>
+<p>Oh, and of course you can combine named and regular expression contexts. This
+example features some different regular expressions and corresponding
+conditionals:</p>
+<pre><code class="language-csharp">[Context(@&quot;^foo.*&quot;)]
+[Context(@&quot;^.*bar.*&quot;)]
+[Context(@&quot;^.*baz&quot;)]
+[Context(&quot;some name&quot;)]
+public static void RegexContext(VoiceAttackInvokeProxyClass vaProxy)
+{
+    string context = vaProxy.Context;
+    if (context.StartsWith(&quot;foo&quot;)) {
+        […]
+    }
+    else if (context.Contains(&quot;bar&quot;)) {
+        […]
+    }
+    else if (context.EndsWith(&quot;baz&quot;)) {
+        […]
+    }
+    else if (context == &quot;some name&quot;)) {
+        […]
+    }
+    else {
+        throw new ArgumentException(&quot;&quot;, &quot;context&quot;);
+    }
+}
+</code></pre>
+<p>This example is more focused and closer to how regular expression contexts are
+intended to be used in practice:</p>
+<pre><code class="language-csharp">[Context(@&quot;^edsm\..*&quot;)]
+public static void EdsmContext(VoiceAttackInvokeProxyClass vaProxy)
+{
+    switch(vaProxy.Context)
+    {
+        case &quot;edsm.findsystem&quot;:
+            […]
+            break;
+        case &quot;edsm.findcommander&quot;:
+            […]
+            break;
+        case &quot;edsm.trafficreport&quot;:
+            […]
+            break;
+        default:
+            throw new ArgumentException(&quot;&quot;, &quot;context&quot;);;
+    }
+}
+</code></pre>
+<h2 id="catchall-plugin-contexts">“Catchall” Plugin Contexts<a class="headerlink" href="#catchall-plugin-contexts" title="Permanent link">&para;</a></h2>
+<p>To have a method invoked on any plugin invocation regardless of context, add a
+<code>ContextAttribute</code> and omit the <code>Name</code>.</p>
+<p><strong>This is not recommended</strong> and has similar issues to using the bare VoiceAttack
+plugin API. It is mostly provided for backwards compatibility; you can easily
+convert your old <code>VA_Invoke1(dynamic)</code> method to a catchall plugin context and
+then modify from there.</p>
+<p>As with <a href="#regular-expression-plugin-contexts">regular expression contexts</a>, you
+should probably have some kind of way to differentiate between contexts. For any
+contexts that are not valid contexts for your plugin, <code>throw</code> an
+<code>ArgumentException</code> with “context” as the parameter name. The exception message,
+again, doesn’t matter.</p>
+<pre><code class="language-csharp">[Context]
+public static void CatchallContext(VoiceAttackInvokeProxyClass vaProxy)
+{
+    switch (vaProxy.Context)
+    {
+        case &quot;some context&quot;:
+            […]
+            break;
+        case &quot;some other context&quot;:
+            […]
+            break;
+        default:
+            throw new ArgumentException(&quot;&quot;, &quot;context&quot;);;
+    }
+}
+</code></pre>
+<h2 id="context-parameters">Context Parameters<a class="headerlink" href="#context-parameters" title="Permanent link">&para;</a></h2>
+<p>VoiceAttack plugin contexts by design do not have any parameters. If you need
+data passed from a VoiceAttack command to the plugin when a context is invoked,
+you will have to set a variable in your VoiceAttack command and then retrieve
+said variable from the context handler method.</p>
+<p>In general it is recommended to provide context parameters as command scoped
+variables (<code>~</code> prefix) in order not to interfere with other commands / plugin
+invocations and their data.</p>
+<p>This example accesses the <code>~test</code> text variable from plugin code:</p>
+<pre><code class="language-csharp">string? testParameter = vaProxy.Get&lt;string&gt;(&quot;~test&quot;);
+</code></pre>
+<p>In case a parameter is missing that is <em>required</em> for your context <code>throw</code> an
+<code>ArgumentNullException</code> with the variable name as the parameter name:</p>
+<pre><code class="language-csharp">string testParameter = vaProxy.Get&lt;string&gt;(&quot;~test&quot;) ?? throw new ArgumentNullException(&quot;~test&quot;);
+</code></pre>
+<p><strong>Note</strong>: You should always use the <code>Get&lt;T&gt;(string)</code> and <code>Set&lt;T&gt;(string)</code>
+extension methods of the <code>VoiceAttackInvokeProxyClass</code> object when accessing
+command scoped variables. They are only available in the proxy object passed to
+the corresponding context handler; the cached proxy object of your plugin object
+might have changed already, leading to race conditions.</p>
+<p><a href="../variables/">More about variables</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../events/" class="btn btn-neutral float-left" title="Handling VoiceAttack Events"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../variables/" class="btn btn-neutral float-right" title="Using VoiceAttack Variables">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/alterNERDtive/YAVAPF" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../events/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../variables/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="alterNERDtive" /><link rel="canonical" href="https://alterNERDtive.github.io/YAVAPF/events/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Handling VoiceAttack Events - YAVAPF – Yet Another VoiceAttack Plugin Framework</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Handling VoiceAttack Events";
+        var mkdocs_page_input_path = "events.md";
+        var mkdocs_page_url = "/YAVAPF/events/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> YAVAPF – Yet Another VoiceAttack Plugin Framework
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Usage</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../gettingstarted/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Handling VoiceAttack Events</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#init">Init</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#exit">Exit</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#stopcommand">StopCommand</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../contexts/">Defining Plugin Contexts</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../variables/">Using VoiceAttack Variables</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../commands/">Executing VoiceAttack Commands</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../logging/">Logging</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../faq/">Frequently Asked Questions</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/alterNERDtive/YAVAPF/blob/release/CHANGELOG.md">⎋ Changelog</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/alterNERDtive/YAVAPF/issues/">⎋ Report a Bug</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">YAVAPF – Yet Another VoiceAttack Plugin Framework</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Usage &raquo;</li><li>Handling VoiceAttack Events</li>
+    <li class="wy-breadcrumbs-aside">
+        <a href="https://github.com/alterNERDtive/YAVAPF/edit/devel/docs/events.md"
+          class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+    <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Breadcrumb Navigation">
+        <a href="../gettingstarted/" class="btn btn-neutral float-left" title="Getting Started"><span class="icon icon-circle-arrow-left" aria-hidden="true"></span> Previous</a>
+        <a href="../contexts/" class="btn btn-neutral float-right" title="Defining Plugin Contexts">Next <span class="icon icon-circle-arrow-right" aria-hidden="true"></span></a>
+    </div>
+  <hr/>
+</div>
+
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="handling-voiceattack-events">Handling VoiceAttack Events<a class="headerlink" href="#handling-voiceattack-events" title="Permanent link">&para;</a></h1>
+<p>In order to handle VoiceAttack’s <code>Init</code>, <code>Exit</code> and <code>StopCommand</code> events, you
+will have to define corresponding event handlers. <a href="../contexts/">The <code>Invoke</code> event is handled
+separately</a>.</p>
+<p>Generally speaking, event handlers in YAVAPF are <code>public static</code> methods of your
+plugin class that must have certain attributes associated to them and must have
+the correct method signature.</p>
+<p>An event can have as many handlers as you require. Do note that a specific order
+of execution cannot be guaranteed.</p>
+<h2 id="init">Init<a class="headerlink" href="#init" title="Permanent link">&para;</a></h2>
+<p><code>Init</code> handlers are invoked when VoiceAttack inintializes your plugin. That
+happens exactly once at application startup. Use these to setup your plugin for
+use.</p>
+<p><code>Init</code> handlers must accept a single <code>VoiceAttackInitProxyClass</code> parameter and
+must have an <code>InitAttribute</code>. <code>InitAttribute</code> does not have any properties.</p>
+<pre><code class="language-csharp">[Init]
+public static void MyInitHandler(VoiceAttackInitProxyClass vaProxy)
+{
+    […]
+}
+</code></pre>
+<h2 id="exit">Exit<a class="headerlink" href="#exit" title="Permanent link">&para;</a></h2>
+<p><code>Exit</code> handlers are invoked when VoiceAttack closes. That happens exactly once
+at application shutdown. Use these to gracefully tear down anything your plugin
+has to tear down.</p>
+<p><code>Exit</code> handlers must accept a single <code>VoiceAttackProxyClass</code> parameter and must
+have an <code>ExitAttribute</code>. <code>ExitAttribute</code> does not have any properties.</p>
+<pre><code class="language-csharp">[Exit]
+public static void MyExitHandler(VoiceAttackProxyClass vaProxy)
+{
+    […]
+}
+</code></pre>
+<h2 id="stopcommand">StopCommand<a class="headerlink" href="#stopcommand" title="Permanent link">&para;</a></h2>
+<p><code>StopCommand</code> handlers are invoked whenever VoiceAttack stops all commands. That
+happens e.g. when a “Stop all commands” command action is executed or when the
+“Stop Commands” button on the main interface is pressed. If your plugin has to
+respond to that, use these.</p>
+<p><code>StopCommand</code> handlers must have no parameters and must have a
+<code>StopCommandAttribute</code>. <code>StopCommandAttribute</code> does not have any properties.</p>
+<pre><code class="language-csharp">[StopCommand]
+public static void MyStopCommandHandler()
+{
+    […]
+}
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../gettingstarted/" class="btn btn-neutral float-left" title="Getting Started"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../contexts/" class="btn btn-neutral float-right" title="Defining Plugin Contexts">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/alterNERDtive/YAVAPF" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../gettingstarted/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../contexts/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
