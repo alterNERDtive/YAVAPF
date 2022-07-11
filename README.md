@@ -17,9 +17,6 @@ the inner workings of VoiceAttack as possible.
 You can find [comprehensive documentation on Github
 Pages](https://alterNERDtive.github.io/YAVAPF).
 
-Or at least you will once this is in a presentable state and I have actually
-written the documentation :)
-
 There is also an [example plugin on
 Github](https://github.com/alterNERDtive/YAVAPF/tree/release/ExamplePlugin).
 
