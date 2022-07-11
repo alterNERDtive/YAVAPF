@@ -61,6 +61,38 @@ By default, YAVAPF automatically sets the following variables for your plugin:
 | `<plugin name>.version`		| string	| The current version of your plugin.
 | `<plugin name>.initialized`	| bool		| The plugin has been initialized correctly.
 
+## Using Proxy Methods vs. Using Plugin Methods
+
+YAVAPF extends the `VoiceAttackInitProxyClass` and `VoiceAttackInvokeProxyClass`
+classes with new generic methods for getting and setting variables. On top of
+that `VoiceAttackPlugin` objects provide the same methods for ease of use and
+when no proxy object is readily available to the current code path.
+
+There is one **caveat** here: plugin objects cache a new proxy object every time
+a plugin context is invoked. If you need to access command scoped variables (`~`
+or `~~`), you should use the `VoiceAttackInvokeProxyClass` object directly.
+Otherwise you might run into race conditions.
+
+Correct:
+
+```csharp
+[Context("test")]
+private static void TestContext(VoiceAttackInvokeProxyClass vaProxy)
+{
+    string test = vaProxy.Get<string>("~test");
+}
+```
+
+Incorrect, might lead to race condition:
+
+```csharp
+[Context("test")]
+private static void TestContext(VoiceAttackInvokeProxyClass vaProxy)
+{
+    string test = Plugin.Get<string>("~test");
+}
+```
+
 ## Getting Variable Values
 
 To get the value of a variable, invoke the `Get<T>(string name)` method of your
@@ -69,7 +101,7 @@ its scope:
 
 ```csharp
 string? foo = Plugin.Get<string>("foo");
-bool bar = Plugin.Get<bool>("~bar") ?? false;
+bool bar = vaProxy.Get<bool>("~bar") ?? false;
 ```
 
 Remember that variable values will be returned as `null` (“Not Set” in

@@ -165,9 +165,9 @@ namespace alterNERDtive.Example
         /// execute anything when all commands are stopped this is the place.
         /// </summary>
         [StopCommand]
-        public static void Stop()
+        public static void StopCommand()
         {
-            Plugin.Log.Notice("This is the example Stop handler method.");
+            Plugin.Log.Notice("This is the example StopCommand handler method.");
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace alterNERDtive.Example
             Plugin.Log.Notice(
                 $"This is the example handler for the plugin contexts “test” and “different test”. It has been invoked with '{vaProxy.Context}'.");
 
-            string test = Plugin.Get<string?>("~test") ?? throw new ArgumentNullException("~test");
+            string test = vaProxy.Get<string?>("~test") ?? throw new ArgumentNullException("~test");
             Plugin.Log.Notice($"The value of 'TXT:~test' is '{test}'");
         }
 

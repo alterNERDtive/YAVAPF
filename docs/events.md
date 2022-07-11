@@ -22,7 +22,8 @@ must have an `InitAttribute`. `InitAttribute` does not have any properties.
 
 ```csharp
 [Init]
-public static void MyInitHandler(VoiceAttackInitProxyClass vaProxy) {
+public static void MyInitHandler(VoiceAttackInitProxyClass vaProxy)
+{
 	[…]
 }
 ```
@@ -38,7 +39,8 @@ have an `ExitAttribute`. `ExitAttribute` does not have any properties.
 
 ```csharp
 [Exit]
-public static void MyExitHandler(VoiceAttackProxyClass vaProxy) {
+public static void MyExitHandler(VoiceAttackProxyClass vaProxy)
+{
 	[…]
 }
 ```
@@ -55,7 +57,8 @@ respond to that, use these.
 
 ```csharp
 [StopCommand]
-public static void MyStopCommandHandler() {
+public static void MyStopCommandHandler()
+{
 	[…]
 }
 ```

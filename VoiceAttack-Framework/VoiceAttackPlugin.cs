@@ -143,16 +143,13 @@ namespace alterNERDtive.Yavapf
         /// <exception cref="InvalidDataException">Thrown when the variable is of an invalid type.</exception>
         protected T? Get<T>(string name)
         {
-            dynamic? ret = typeof(T) switch
+            if (name.StartsWith("~"))
             {
-                Type boolType when boolType == typeof(bool) => this.Proxy.GetBoolean(name),
-                Type dateType when dateType == typeof(DateTime) => this.Proxy.GetDate(name),
-                Type decType when decType == typeof(decimal) => this.Proxy.GetDecimal(name),
-                Type intType when intType == typeof(int) => this.Proxy.GetInt(name),
-                Type stringType when stringType == typeof(string) => this.Proxy.GetText(name),
-                _ => throw new InvalidDataException($"Cannot get variable '{name}': invalid type '{typeof(T).Name}'."),
-            };
-            return ret;
+                this.Log.Warn(
+                    $"Accessing command scoped variable '{name}' outside of its context proxy object. This might lead to race conditions.");
+            }
+
+            return this.Proxy.Get<T>(name);
         }
 
         /// <summary>
@@ -167,33 +164,13 @@ namespace alterNERDtive.Yavapf
         /// <exception cref="InvalidDataException">Thrown when the variable is of an invalid type.</exception>
         protected void Set<T>(string name, T? value)
         {
-            if (value == null)
+            if (name.StartsWith("~"))
             {
-                this.Unset<T>(name);
+                this.Log.Warn(
+                    $"Accessing command scoped variable '{name}' outside of its context proxy object. This might lead to race conditions.");
             }
-            else
-            {
-                switch (value)
-                {
-                    case bool b:
-                        this.Proxy.SetBoolean(name, b);
-                        break;
-                    case DateTime d:
-                        this.Proxy.SetDate(name, d);
-                        break;
-                    case decimal d:
-                        this.Proxy.SetDecimal(name, d);
-                        break;
-                    case int i:
-                        this.Proxy.SetInt(name, i);
-                        break;
-                    case string s:
-                        this.Proxy.SetText(name, s);
-                        break;
-                    default:
-                        throw new InvalidDataException($"Cannot set variable '{name}': invalid type '{typeof(T).Name}'.");
-                }
-            }
+
+            this.Proxy.Set<T>(name, value);
         }
 
         /// <summary>
@@ -207,26 +184,13 @@ namespace alterNERDtive.Yavapf
         /// <exception cref="InvalidDataException">Thrown when the variable is of an invalid type.</exception>
         protected void Unset<T>(string name)
         {
-            switch (typeof(T))
+            if (name.StartsWith("~"))
             {
-                case Type boolType when boolType == typeof(bool):
-                    this.Proxy.SetBoolean(name, null);
-                    break;
-                case Type dateType when dateType == typeof(DateTime):
-                    this.Proxy.SetDate(name, null);
-                    break;
-                case Type decType when decType == typeof(decimal):
-                    this.Proxy.SetDecimal(name, null);
-                    break;
-                case Type intType when intType == typeof(int):
-                    this.Proxy.SetInt(name, null);
-                    break;
-                case Type stringType when stringType == typeof(string):
-                    this.Proxy.SetText(name, null);
-                    break;
-                default:
-                    throw new InvalidDataException($"Cannot set variable '{name}': invalid type '{typeof(T).Name}'.");
+                this.Log.Warn(
+                    $"Accessing command scoped variable '{name}' outside of its context proxy object. This might lead to race conditions.");
             }
+
+            this.Proxy.Unset<T>(name);
         }
 
         /// <summary>

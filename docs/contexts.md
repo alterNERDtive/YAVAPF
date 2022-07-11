@@ -36,7 +36,8 @@ Separate functionality, separate handler method(s).
 [Context("test")]
 [Context("test context")]
 [Context("alternate context name")]
-public static void TestContext(VoiceAttackInvokeProxyClass vaProxy) {
+public static void TestContext(VoiceAttackInvokeProxyClass vaProxy)
+{
 	[…]
 }
 ```
@@ -68,7 +69,8 @@ conditionals:
 [Context(@"^.*bar.*")]
 [Context(@"^.*baz")]
 [Context("some name")]
-public static void RegexContext(VoiceAttackInvokeProxyClass vaProxy) {
+public static void RegexContext(VoiceAttackInvokeProxyClass vaProxy)
+{
 	string context = vaProxy.Context;
 	if (context.StartsWith("foo")) {
 		[…]
@@ -93,7 +95,8 @@ intended to be used in practice:
 
 ```csharp
 [Context(@"^edsm\..*")]
-public static void EdsmContext(VoiceAttackInvokeProxyClass vaProxy) {
+public static void EdsmContext(VoiceAttackInvokeProxyClass vaProxy)
+{
 	switch(vaProxy.Context)
 	{
 		case "edsm.findsystem":
@@ -129,7 +132,8 @@ again, doesn’t matter.
 
 ```csharp
 [Context]
-public static void CatchallContext(VoiceAttackInvokeProxyClass vaProxy) {
+public static void CatchallContext(VoiceAttackInvokeProxyClass vaProxy)
+{
 	switch (vaProxy.Context)
 	{
 		case "some context":
@@ -158,14 +162,20 @@ invocations and their data.
 This example accesses the `~test` text variable from plugin code:
 
 ```csharp
-string? testParameter = Plugin.Get<string>("~test");
+string? testParameter = vaProxy.Get<string>("~test");
 ```
 
 In case a parameter is missing that is _required_ for your context `throw` an
 `ArgumentNullException` with the variable name as the parameter name:
 
 ```csharp
-string testParameter = Plugin.Get<string>("~test") ?? throw new ArgumentNullException("~test");
+string testParameter = vaProxy.Get<string>("~test") ?? throw new ArgumentNullException("~test");
 ```
+
+**Note**: You should always use the `Get<T>(string)` and `Set<T>(string)`
+extension methods of the `VoiceAttackInvokeProxyClass` object when accessing
+command scoped variables. They are only available in the proxy object passed to
+the corresponding context handler; the cached proxy object of your plugin object
+might have changed already, leading to race conditions.
 
 [More about variables](variables.md).
