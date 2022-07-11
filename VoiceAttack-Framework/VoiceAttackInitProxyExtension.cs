@@ -1,4 +1,4 @@
-﻿// <copyright file="VoiceAttackProxyExtension.cs" company="alterNERDtive">
+﻿// <copyright file="VoiceAttackInitProxyExtension.cs" company="alterNERDtive">
 // Copyright 2022 alterNERDtive.
 //
 // This file is part of YAVAPF.
