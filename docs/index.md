@@ -23,9 +23,20 @@ Github](https://github.com/alterNERDtive/YAVAPF/tree/release/ExamplePlugin).
 * [x] Handlers for variable changed events
 * [x] Logging to the VoiceAttack event log
 * [ ] Logging to a log file
+    * [ ] separate full debug log
 * [ ] Wrapper for executing commands
+* [ ] Plugin options, separate from handling “normal” variables
+    * [ ] default values
+    * [ ] descriptions
+    * [ ] auto save / load between VoiceAttack runs¹
+        * [ ] profile specific
+        * [ ] global
+    * [ ] bootstrapping voice commands for changing options
+    * [ ] GUI support
 * [ ] Miscellaneous VoiceAttack proxy functionality
 * [ ] Full unit test coverage 😬
+
+¹ Will probably require changes in VoiceAttack that I have already requested.
 
 ## Need Help / Want to Contribute?
 
