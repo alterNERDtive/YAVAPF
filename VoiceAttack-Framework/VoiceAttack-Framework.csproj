@@ -18,7 +18,7 @@
     <PackageTags>VoiceAttack;plugin;framework</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
     <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Title>Yet Another VoiceAttack Plugin Framework</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>

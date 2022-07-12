@@ -7,6 +7,7 @@
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
+    <IsPublishable>False</IsPublishable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
