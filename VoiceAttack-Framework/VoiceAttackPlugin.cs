@@ -29,6 +29,7 @@ namespace alterNERDtive.Yavapf
     /// </summary>
     public class VoiceAttackPlugin
     {
+        private VoiceAttackCommands? commands;
         private VoiceAttackLog? log;
         private VoiceAttackInitProxyClass? vaProxy;
 
@@ -115,6 +116,17 @@ namespace alterNERDtive.Yavapf
         /// Gets or sets the GUID of the plugin.
         /// </summary>
         protected string? Guid { get; set; }
+
+        /// <summary>
+        /// Gets the <see cref="VoiceAttackCommands"/> instance the plugin uses
+        /// to run commands.
+        ///
+        /// You can use this to run your own commands.
+        /// </summary>
+        protected VoiceAttackCommands Commands
+        {
+            get => this.commands ??= new VoiceAttackCommands(this.Proxy, this.Log);
+        }
 
         /// <summary>
         /// Gets the <see cref="VoiceAttackLog"/> instance the plugin uses to

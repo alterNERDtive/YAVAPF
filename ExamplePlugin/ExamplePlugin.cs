@@ -141,6 +141,7 @@ namespace alterNERDtive.Example
         /// </summary>
         /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
         [Init]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required by plugin API")]
         public static void Init(VoiceAttackInitProxyClass vaProxy)
         {
             Plugin.Log.Notice("This is the example Init handler method.");
@@ -153,6 +154,7 @@ namespace alterNERDtive.Example
         /// </summary>
         /// <param name="vaProxy">The current VoiceAttack proxy object.</param>
         [Exit]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required by plugin API")]
         public static void Exit(VoiceAttackProxyClass vaProxy)
         {
             Plugin.Log.Notice("This is the example Exit handler method.");
@@ -205,6 +207,28 @@ namespace alterNERDtive.Example
         }
 
         /// <summary>
+        /// An example handler for a context that runs additional VoiceAttack
+        /// commands.
+        /// </summary>
+        /// <param name="vaProxy">The <see cref="VoiceAttackInvokeProxyClass"/>
+        /// proxy object.</param>
+        [Context("runcommandtest")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required by plugin API")]
+        public static void RunCommandTestContext(VoiceAttackInvokeProxyClass vaProxy)
+        {
+            // “Just” runs a command with no further options
+            Plugin.Commands.Run("test command");
+
+            // Runs a command as a subcommand to the current command, and blocks
+            // until command execution finishes
+            Plugin.Commands.Run("test command", wait: true, subcommand: true);
+
+            Plugin.Commands.Run(
+                "command with parameters",
+                parameters: new dynamic[] { new string[] { "foo", "bar" }, new DateTime[] { DateTime.Now } });
+        }
+
+        /// <summary>
         /// An example handler for changed <see cref="bool"/> variables. It only
         /// applies to the “isDay#” variable.
         /// </summary>
@@ -212,6 +236,7 @@ namespace alterNERDtive.Example
         /// <param name="from">The old value of the variable.</param>
         /// <param name="to">The new value of the variable.</param>
         [Bool("isDay#")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required by plugin API")]
         public static void DayChanged(string name, bool? from, bool? to)
         {
             Plugin.Log.Notice($"This is the example handler for changed bool variables. It is now {(to ?? false ? "day" : "night")}.");
