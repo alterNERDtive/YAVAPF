@@ -47,3 +47,4 @@ jobs:
           artifacts: "VoiceAttack-Framework/bin/Release/alterNERDtive.YAVAPF.*nupkg,VoiceAttack-Framework/bin/Release/net48/VoiceAttack-Framework.*"
           bodyFile: "CHANGELOG.md"
           draft: true
+          token: ${{ secrets.RELEASE_TOKEN }}
