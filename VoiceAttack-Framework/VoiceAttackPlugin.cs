@@ -17,10 +17,6 @@
 // along with YAVAPF.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 

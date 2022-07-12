@@ -26,6 +26,8 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>

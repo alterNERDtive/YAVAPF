@@ -17,8 +17,6 @@
 // along with YAVAPF.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
 // </copyright>
 
-using System;
-
 using VoiceAttack;
 
 namespace alterNERDtive.Yavapf
