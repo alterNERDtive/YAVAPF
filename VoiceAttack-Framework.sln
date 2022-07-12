@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		requirements.txt = requirements.txt
 		stylecop.json = stylecop.json
+		StyleCop.ruleset = StyleCop.ruleset
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1BE45F7D-E6DE-49D2-A906-5CC9CD49B639}"
