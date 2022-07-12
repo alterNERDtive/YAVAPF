@@ -24,3 +24,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "because that’s my name", Scope = "namespace", Target = "~N:alterNERDtive.Yavapf")]
+[assembly: SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1011:Closing square brackets should be spaced correctly", Justification = "have to do that to make arrays nullable, fam", Scope = "type", Target = "~T:alterNERDtive.Yavapf.VoiceAttackCommands")]

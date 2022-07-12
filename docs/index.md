@@ -24,7 +24,7 @@ Github](https://github.com/alterNERDtive/YAVAPF/tree/release/ExamplePlugin).
 * [x] Logging to the VoiceAttack event log
 * [ ] Logging to a log file
     * [ ] separate full debug log
-* [ ] Wrapper for executing commands
+* [x] Wrapper for executing commands
 * [ ] Plugin options, separate from handling “normal” variables
     * [ ] default values
     * [ ] descriptions
