@@ -93,6 +93,19 @@ private static void TestContext(VoiceAttackInvokeProxyClass vaProxy)
 }
 ```
 
+This will log a warning to the VoiceAttack event log.
+
+You can, if you are sure that you will _not_ run into a race condition, suppress
+said warning:
+
+```csharp
+[Context("test")]
+private static void TestContext(VoiceAttackInvokeProxyClass vaProxy)
+{
+    string test = Plugin.Get<string>("~test", suppressWarning: true);
+}
+```
+
 ## Getting Variable Values
 
 To get the value of a variable, invoke the `Get<T>(string name)` method of your
