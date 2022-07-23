@@ -58,7 +58,7 @@ Its parameter is not case sensitive.
 
 ```csharp
 Plugin.Log.LogLevel = LogLevel.WARN;
-Plugin.Log.SetLogLevel = "info";
+Plugin.Log.SetLogLevel("info");
 ```
 
 You can also set the log level from a VoiceAttack command directly by simply
