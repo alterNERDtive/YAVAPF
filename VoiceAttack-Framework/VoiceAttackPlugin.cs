@@ -155,8 +155,7 @@ namespace alterNERDtive.Yavapf
         {
             if (name.StartsWith("~") && !suppressWarning)
             {
-                this.Log.Warn(
-                    $"Accessing command scoped variable '{name}' outside of its context proxy object. This might lead to race conditions.");
+                this.Log.Warn(string.Format(L10n.WarningCommandScopedVariable, name));
             }
 
             return this.Proxy.Get<T>(name);
@@ -178,8 +177,7 @@ namespace alterNERDtive.Yavapf
         {
             if (name.StartsWith("~") && !suppressWarning)
             {
-                this.Log.Warn(
-                    $"Accessing command scoped variable '{name}' outside of its context proxy object. This might lead to race conditions.");
+                this.Log.Warn(string.Format(L10n.WarningCommandScopedVariable, name));
             }
 
             this.Proxy.Set<T>(name, value);
@@ -200,8 +198,7 @@ namespace alterNERDtive.Yavapf
         {
             if (name.StartsWith("~") && !suppressWarning)
             {
-                this.Log.Warn(
-                    $"Accessing command scoped variable '{name}' outside of its context proxy object. This might lead to race conditions.");
+                this.Log.Warn(string.Format(L10n.WarningCommandScopedVariable, name));
             }
 
             this.Proxy.Unset<T>(name);
@@ -235,7 +232,7 @@ namespace alterNERDtive.Yavapf
             this.vaProxy = vaProxy;
 
             this.Set<string>($"{this.Name}.version", this.Version);
-            this.Log.Debug($"Initializing v{this.Version} …");
+            this.Log.Debug(string.Format(L10n.PluginInitializing, this.Version));
 
             this.vaProxy.BooleanVariableChanged += this.BooleanVariableChanged;
             this.vaProxy.DateVariableChanged += this.DateVariableChanged;
@@ -270,12 +267,12 @@ namespace alterNERDtive.Yavapf
             this.GetType().GetMethods().Where(m => m.GetCustomAttributes<StringAttribute>().Any()).ToList().ForEach(
                 m => this.StringChangedHandlers += (Action<string, string?, string?>)m.CreateDelegate(typeof(Action<string, string?, string?>)));
 
-            this.Log.Debug("Running Init handlers …");
+            this.Log.Debug(L10n.RunningInitHandlers);
             this.InitActions?.Invoke(vaProxy);
-            this.Log.Debug("Finished running Init handlers.");
+            this.Log.Debug(L10n.FinishedRunningInitHandlers);
 
             this.Set<bool>($"{this.Name}.initialized", true);
-            this.Log.Debug("Initialized.");
+            this.Log.Debug(L10n.Initialized);
         }
 
         /// <summary>
@@ -317,15 +314,15 @@ namespace alterNERDtive.Yavapf
                 }
                 catch (ArgumentNullException e)
                 {
-                    this.Log.Error($"Missing parameter '{e.ParamName}' for context '{context}'");
+                    this.Log.Error(string.Format(L10n.MissingParameterForContext, e.ParamName, context));
                 }
                 catch (ArgumentException e) when (e.ParamName == "context")
                 {
-                    this.Log.Error($"Invalid plugin context '{vaProxy.Context}'.");
+                    this.Log.Error(string.Format(L10n.InvalidPluginContext, vaProxy.Context));
                 }
                 catch (Exception e)
                 {
-                    this.Log.Error($"Unhandled exception while executing plugin context '{context}': {e.Message}");
+                    this.Log.Error(string.Format(L10n.UnhandledExceptionWhileExecutingPluginContext, context, e.Message));
                 }
             }
             else
@@ -346,21 +343,21 @@ namespace alterNERDtive.Yavapf
                         }
                         catch (ArgumentNullException e)
                         {
-                            this.Log.Error($"Missing parameter '{e.ParamName}' for context '{context}'");
+                            this.Log.Error(string.Format(L10n.MissingParameterForContext, e.ParamName, context));
                         }
                         catch (ArgumentException e) when (e.ParamName == "context")
                         {
-                            this.Log.Error($"Invalid plugin context '{vaProxy.Context}'.");
+                            this.Log.Error(string.Format(L10n.InvalidPluginContext, vaProxy.Context));
                         }
                         catch (Exception e)
                         {
-                            this.Log.Error($"Unhandled exception while executing plugin context '{context}': {e.Message}");
+                            this.Log.Error(string.Format(L10n.UnhandledExceptionWhileExecutingPluginContext, context, e.Message));
                         }
                     }
                 }
                 else
                 {
-                    this.Log.Error($"Invalid plugin context '{vaProxy.Context}'.");
+                    this.Log.Error(string.Format(L10n.InvalidPluginContext, vaProxy.Context));
                 }
             }
         }
@@ -406,7 +403,7 @@ namespace alterNERDtive.Yavapf
                 }
                 catch (Exception e)
                 {
-                    this.Log.Error($"Unhandled exception while handling changed bool variable '{name}': {e.Message}");
+                    this.Log.Error(string.Format(L10n.UnhandledExceptionWhileHandlingChangedVariable, "bool", name, e.Message));
                 }
             }
         }
@@ -432,7 +429,7 @@ namespace alterNERDtive.Yavapf
                 }
                 catch (Exception e)
                 {
-                    this.Log.Error($"Unhandled exception while handling changed DateTime variable '{name}': {e.Message}");
+                    this.Log.Error(string.Format(L10n.UnhandledExceptionWhileHandlingChangedVariable, "DateTime", name, e.Message));
                 }
             }
         }
@@ -458,7 +455,7 @@ namespace alterNERDtive.Yavapf
                 }
                 catch (Exception e)
                 {
-                    this.Log.Error($"Unhandled exception while handling changed decimal variable '{name}': {e.Message}");
+                    this.Log.Error(string.Format(L10n.UnhandledExceptionWhileHandlingChangedVariable, "decimal", name, e.Message));
                 }
             }
         }
@@ -484,7 +481,7 @@ namespace alterNERDtive.Yavapf
                 }
                 catch (Exception e)
                 {
-                    this.Log.Error($"Unhandled exception while handling changed int variable '{name}': {e.Message}");
+                    this.Log.Error(string.Format(L10n.UnhandledExceptionWhileHandlingChangedVariable, "int", name, e.Message));
                 }
             }
         }
@@ -506,7 +503,7 @@ namespace alterNERDtive.Yavapf
                 }
                 catch (ArgumentException)
                 {
-                    this.Log.Error($"Error setting log level: '{to!}' is not a valid log level.");
+                    this.Log.Error(string.Format(L10n.ErrorSettingLogLevel, to));
                 }
             }
 
@@ -522,7 +519,7 @@ namespace alterNERDtive.Yavapf
                 }
                 catch (Exception e)
                 {
-                    this.Log.Error($"Unhandled exception while handling changed string variable '{name}': {e.Message}");
+                    this.Log.Error(string.Format(L10n.UnhandledExceptionWhileHandlingChangedVariable, "string", name, e.Message));
                 }
             }
         }
