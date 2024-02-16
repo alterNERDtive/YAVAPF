@@ -2,6 +2,7 @@
 
 ## Added
 
+* Localization. Currently ships with English and German.
 * [Commands interface](https://alternerdtive.github.io/YAVAPF/commands/).
 * Optionally suppress the  race condition warning on [setting command scoped
   variables from the cached proxy
