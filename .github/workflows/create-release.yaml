@@ -44,7 +44,7 @@ jobs:
       - name: Draft release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "VoiceAttack-Framework/bin/Release/alterNERDtive.YAVAPF.*nupkg,VoiceAttack-Framework/bin/Release/net48/VoiceAttack-Framework.*"
+          artifacts: "VoiceAttack-Framework/bin/Release/alterNERDtive.YAVAPF.*nupkg,VoiceAttack-Framework/bin/Release/net7/VoiceAttack-Framework.*"
           bodyFile: "CHANGELOG.md"
           draft: true
           token: ${{ secrets.RELEASE_TOKEN }}

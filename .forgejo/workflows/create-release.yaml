@@ -59,6 +59,6 @@ jobs:
           body: ${{ env.release_body }}
           files: |-
             VoiceAttack-Framework/bin/Release/alterNERDtive.YAVAPF.*nupkg
-            VoiceAttack-Framework/bin/Release/net48/VoiceAttack-Framework.*
+            VoiceAttack-Framework/bin/Release/net7/VoiceAttack-Framework.*
           draft: true
           api_key: '${{ secrets.RELEASE_TOKEN }}'
