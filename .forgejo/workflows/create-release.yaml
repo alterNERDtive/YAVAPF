@@ -1,0 +1,64 @@
+﻿name: Create release on tag push
+
+on:
+  push:
+    tags:
+      - 'release/*'
+
+jobs:
+  build:
+    name: Create release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Install VoiceAttack
+        uses: alterNERDtive/setup-voiceattack-action@develop
+        with:
+          version: "1.10"
+
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c release
+
+      - name: Run tests
+        run: dotnet test
+
+      - name: Create NuGet package
+        run: dotnet pack -c release "VoiceAttack-Framework/VoiceAttack-Framework.csproj"
+
+      - name: Push NuGet package
+        run: dotnet nuget push "VoiceAttack-Framework/bin/Release/alterNERDtive.YAVAPF.*.nupkg" --source 'https://api.nuget.org/v3/index.json' --api-key ${{secrets.NUGET_AUTH_TOKEN}}
+
+      - name: Get release body
+        run: |
+          echo "release_body=$(cat CHANGELOG.md)" >> "$GITHUB_ENV"
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '>=1.20.1'
+
+      - name: Draft release
+        uses: https://gitea.com/actions/release-action@main
+        with:
+          body: ${{ env.release_body }}
+          files: |-
+            VoiceAttack-Framework/bin/Release/alterNERDtive.YAVAPF.*nupkg
+            VoiceAttack-Framework/bin/Release/net48/VoiceAttack-Framework.*
+          draft: true
+          api_key: '${{ secrets.RELEASE_TOKEN }}'

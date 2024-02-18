@@ -19,12 +19,12 @@ jobs:
             version: "1.10"
 
       - name: Checkout source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup .Net
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '7.0.x'
 
       - name: Restore dependencies
         run: dotnet restore
